@@ -1,0 +1,559 @@
+html {
+	height: 100%;
+}
+
+body {
+	font-family: arial;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	height: 100%;
+}
+
+#header {
+	width: 100%;
+	height: 70px;
+	background-color: #3367d6;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#header #title {
+	font-family: verdana;
+	float: left;
+	padding-left: 20px;
+	line-height: 70px;
+	vertical-align: middle;
+	color: white;
+	
+}
+
+#titleImage {
+	float: left;
+	line-height: 70px;
+	vertical-align: middle;
+	color: white;
+	height: 70px;
+	width: 65px;
+	background-color: #3367d6;
+	background-image: url("img/ABC_64px.png"); 
+	background-repeat: no-repeat;
+	background-position: 0px 5px;
+}
+
+.titleText {
+	font-family: verdana;
+	float: left;
+	color: white;
+	font-size: 40px;
+	line-height: 70px;
+	vertical-align: middle;
+	color: white;
+	height: 70px;
+	
+}
+
+
+#header #title span {
+	font-size: 40px;
+	vertical-align: middle;
+	color: white;
+}
+
+#header #links {
+	float: right;
+	padding-right: 30px;
+	line-height: 70px;
+	color: white;
+}
+
+
+#header #links span {
+	font-size: .8em;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+#header #links a {
+	text-decoration: none;
+	color: white;
+}
+
+#header #links a:hover
+{ 
+	text-decoration: underline;
+}
+
+
+#header #title span.tiltBlockRight
+{
+	transform:rotate(7deg);
+	-webkit-transform:rotate(7deg);
+	-ms-transform:rotate(7deg); 
+	margin-left: 10px;
+	padding-left: 5px; 
+	padding-right: 5px; 
+	display: inline-block; 
+	line-height: 30px;
+	background-color: white;
+	font-size: 30px;
+}
+
+#header #title span.tiltBlockLeft
+{
+	transform:rotate(353deg);
+	-webkit-transform:rotate(353deg);
+	-ms-transform:rotate(353deg); 
+	margin-left: 10px;
+	padding-left: 5px; 
+	padding-right: 5px; 
+	display: inline-block; 
+	line-height: 30px;
+	background-color: white;
+	font-size: 30px;
+}
+
+#tabBar {
+	height: 34px; 
+	line-height: 34px;
+    vertical-align: middle;
+	background: #e2e2e2; 
+	width: 100%;
+}
+
+#tabBar span {
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	height: 34px;
+	line-height:  34px;
+    display: inline-block;
+    margin-left: 10px;
+    width: auto;
+    padding-left: 37px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+#tabBar span:hover
+{ 
+	cursor: pointer;
+}
+ 
+.home
+{
+	background-image: url("img/home_blk.png"); 
+}
+
+.log
+{
+	background-image: url("img/database_blk.png"); 
+}
+
+.add
+{
+	background-image: url("img/add_blk.png"); 
+}
+ 
+.settings
+{
+	background-image: url("img/settings_blk.png"); 
+}
+
+.selectedTab {
+	background-color: white;
+}
+
+.abcDiv
+{
+	padding-left: 5px; 
+	height: 120px; 
+	overflow-y: auto; 
+	border-left: 1px solid #e2e2e2;
+	border-right: 1px solid #e2e2e2;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+.submitBtn {
+	color: white;
+	background-color: #1A77E8;
+	border: 1px #1A77E8 solid;
+	border-radius: 4px;
+	font-size: .9em;
+	padding: 3px;
+}
+
+.submitBtn:hover {
+	cursor: pointer;
+}
+
+.logExport {
+	margin-left: 20px;
+}
+
+.cancelBtn {
+	border: 1px #dddddd solid;
+	border-radius: 4px;
+	font-size: .9em;
+}
+
+.cancelBtn:hover {
+	cursor: pointer;
+	background-color: #dfdfdf;
+}
+
+.disabledBtn {
+	color: #cccccc;
+	background-color: #dddddd;
+	border: 1px #cccccc solid;
+	border-radius: 4px;
+	font-size: .9em;
+	padding: 3px;
+}
+
+.linkSpan {
+	font-size: .9em;
+}
+
+.linkSpanDisabled {
+	font-size: .9em;
+	color: #cccccc;
+}
+
+.linkSpan:hover {
+	cursor: pointer;
+	color: #1A77E8;
+}
+
+
+.excelExport
+{
+	margin-left: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	/* background-repeat: no-repeat; */
+	/* background-image: url("img/Microsoft Excel_16px.png"); */
+	background-color: #3367d6;
+	color: white;
+	border: 1px #3367d6 solid;
+	border-radius: 4px;
+	font-size: .9em;
+}
+
+.excelExport:hover {
+	cursor: pointer;
+}
+
+.excel
+{
+	background-image: url("img/Microsoft Excel_16px.png"); 
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	background-position: 2px center;
+	border: 0;
+}
+
+.colorOrange
+{
+	color: orange !important; 
+	border: 1px solid orange; 
+	background-color: white;
+	padding-left: 5px; 
+	padding-right: 5px; 
+}
+
+.colorRed
+{
+	color: red !important;  
+	border: 1px solid red;
+	background-color: white;
+	padding-left: 5px; 
+	padding-right: 5px; 
+}
+
+.colorGreen
+{
+	color: green !important; 
+	border: 1px solid green;
+	background-color: white;
+	padding-left: 5px; 
+	padding-right: 5px; 
+}
+
+
+#contentArea {
+	background-color: white; 
+	width: 100%; 
+	height: 100%;
+	
+}
+
+.forgotSection {
+	padding-top: 10px;
+}
+
+.forgotSection a {
+	text-decoration: none;
+	font-size: .85em;
+	color: #000000;
+}
+
+.forgotSection a:hover {
+	color: blue;	
+}
+
+.addAbcDiv
+{
+	padding-left: 5px; 
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	background-color: #f2f2f2;
+}
+
+.abcTab
+{
+	padding-left: 5px !important;
+	padding-right: 5px !important;
+	width: auto !important;
+}
+
+.addValueDiv
+{
+	margin-top: 5px;
+	border: 1px solid #cccccc;
+	padding-bottom: 5px;
+}
+
+.addValueNormal
+{
+	font-size: .9em; 
+	color: #1A77E8; 
+	font-weight: bold; 
+	display: block; 
+	background-color: #f2f2f2;
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	padding-left: 5px;
+}
+
+.addValueSuccess
+{
+	font-size: .9em; 
+	color: green; 
+	font-weight: bold; 
+	display: block; 
+	background-color: #f2f2f2;
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	background-image: url("img/Ok_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding-left: 30px;
+}
+
+.addValueError
+{
+	font-size: .9em; 
+	color: red; 
+	font-weight: bold; 
+	display: block; 
+	background-color: #f2f2f2;
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	background-image: url("img/Error_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding-left: 30px;
+}
+
+.scrollContent
+{
+	padding: 5px 10px 5px 10px; 
+	overflow: auto; 
+	height: calc(100% - 124px); 
+	width: 98%;
+}
+
+.hideElement {
+	display: none;
+}
+
+.showElement {
+	display: inline-block;
+}
+
+.hideDiv {
+	display: none;
+}
+
+.showDiv {
+	display: block;
+}
+
+.expandHeader {
+	background-image: url("img/Plus_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-color: #f2f2f2;
+	padding-left: 30px;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	margin-top: 10px;
+ }
+ .expandHeader:hover {
+ 	cursor: pointer;
+ }
+ 
+ .collapseHeader {
+	background-image: url("img/Minus_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-color: #f2f2f2;
+	padding-left: 30px;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	margin-top: 10px;
+ }
+ .collapseHeader:hover {
+ 	cursor: pointer;
+ }
+ 
+ .settingsDiv
+{
+	padding: 5px;
+}
+
+.normalMessage {
+	color: black;
+}
+
+.successMessage {
+	color: green;
+	font-size: .9em;
+	background-image: url("img/Ok_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px 0px;
+	margin-left: 5px;
+    padding-left: 30px;
+ }
+
+.errorMessage {
+	color: red;
+	font-size: .9em;
+	background-image: url("img/Error_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px 0px;
+	margin-left: 5px;
+    padding-left: 30px;
+}
+
+.twoDigit {
+	width: 20px; 
+	text-align: center;
+}
+
+.accessGrid {
+	border: solid 1px #f2f2f2;
+	border-collapse: collapse;
+}
+
+.accessGrid tr
+{
+	border: solid 1px #f2f2f2;
+}
+
+.accessGrid td {
+	border: solid 1px #f2f2f2;
+	padding: 5px 5px 5px 5px; 
+}
+
+.grid {
+  width: calc(100% - 10px);
+  height: calc(100% - 185px);
+  font-size: .85em;
+}
+
+.logDate {
+	
+}
+
+.logDate:hover {
+	color: blue;
+	cursor: pointer;
+}
+
+.alignRight {
+	text-align: right;
+}
+
+.navButton {
+	width: 35px;
+}
+
+.navLink
+{
+	font-size:14px; 
+	display: inline-block; 
+	width: 250px; 
+	text-align: center;
+}
+
+.navLink a {
+    text-decoration: none;
+    color: black;
+}
+
+.navLink a:hover {
+   color: blue;
+   text-decoration: none;
+}
+
+
+.sectionSpan
+{
+	float: left; 
+	width: 270px;
+	vertical-align: top;
+	padding: 2px 2px 2px 2px;
+	margin: 0px 0px 0px 0px;
+}
+
+.td-required 
+{
+	padding-top: 5px;
+	width: 10px;
+}
+
+.td-label 
+{
+	padding-top: 5px;
+	width: 120px;
+}
+
+.td-input 
+{
+	padding-top: 5px;
+}
+
+.form-label {
+	font-size: 0.8em;
+	padding-top: 10px; 
+	color: blue; 
+	font-weight: bold;
+}
+
+
+
+
+

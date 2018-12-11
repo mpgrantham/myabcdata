@@ -1,0 +1,38 @@
+<div style="padding: 10px;">
+
+    <p ng-class="{'normalMessage': status == 1, 'successMessage': status == 0, 'errorMessage': status == 2}">{{message}}</p>
+    
+    <div ng-class="status == 0 ? 'hideElement' : 'showElement'">
+    
+		<table>
+	    	
+	    	<tr>
+	    		<td>New Password</td>
+	    		<td> 
+	    			<input type="password" name="newPassword" id="newPassword" ng-model="newPassword" style="width: 150px;"/>
+	    		</td>
+	    	</tr>
+	    	
+	    	<tr>
+	    		<td>Confirm Password</td>
+	    		<td> 
+	    			<input type="password" name="confirmPassword" id="confirmPassword" ng-model="confirmPassword" style="width: 150px;"/>
+	    		</td>
+	    	</tr>
+	    	    	
+	    	<tr>
+	    		<td colspan="2">
+	    			 <button ng-click="resetPassword()" ng-disabled="status != 1">Reset</button>
+	    			 &nbsp;&nbsp;&nbsp;
+		    		<button ng-click="cancelReset()">Cancel</button>
+	    		</td>
+	    	</tr>
+	    	
+	    </table>
+    </div>
+    
+    <div ng-class="status == 0 ? 'showElement' : 'hideElement'">
+    	<a href="#" ng-click="showSignIn($event)">Proceed to Sign In</a> 
+	</div>
+    
+</div>

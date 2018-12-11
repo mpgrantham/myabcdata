@@ -1,0 +1,16 @@
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\dal\UsersDAOImpl.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\model\Observed.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\model\Relationship.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\model\UserSession.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\exception\MyABCException.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\logic\UsersLogic.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\model\RegisterUser.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\dal\UsersDAO.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\logic\UsersLogicImpl.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\config\AppConfig.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\config\AppInitializer.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\dal\BaseDAO.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\controller\UserController.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\logic\PasswordEncryption.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\model\StatusMessage.java
+D:\workspace-photon\myabcdata\src\main\java\com\canalbrewing\myabcdata\model\User.java

@@ -1,0 +1,66 @@
+<div id="header">
+    <div class="titleText">
+			my
+			<!-- 
+			<span class="colorOrange">A</span>
+			<span class="colorRed">B</span>
+			<span class="colorGreen">C</span>
+			
+			 -->
+	</div>
+	
+	<div id="titleImage"></div>
+	
+	<div class="titleText">
+		data
+	</div>
+		
+	<div id="links">
+		
+		<div id="signInLinks" ng-class="user.signInStatus == 0 ? 'hideElement' : 'showElement'">
+			<span id="signInSpan"> 
+				<a href="#" ng-click="showSignIn($event)">Sign In</a> 
+			</span> 
+			
+			<span id="registerSpan" style="padding-left: 15px; padding-right: 10px;"> 
+				<a href="#" ng-click="showRegister($event)">Register</a> 
+			</span> 
+		</div>	
+		
+		<div id="signOutLinks" ng-class="user.signInStatus == 0 ? 'showElement' : 'hideElement'">
+			<span>
+				<a href="#" ng-click="signOut($event)" style="padding-right: 10px;">Sign Out</a> 
+			</span>
+		</div>
+		
+	</div>
+         
+</div>
+
+
+<div id="tabBar" ng-class="user.signInStatus == 0 ? 'showElement' : 'hideElement'">
+
+	<span class="home" title="Home Page" ng-click="navigate($event, 'home')" id="homeTab" ng-class="{ 'selectedTab': selectedTab == 'home'}"> 
+		Home 
+	</span>
+	
+	<span class="log" title="Events Log Page" ng-click="navigate($event, 'log')" id="logTab" ng-class="{ 'selectedTab': selectedTab == 'log'}"> 
+		Log 
+	</span>
+	
+	<span class="add" ng-click="navigate($event, 'entry')" title="Add an Event Entry" id="addTab" ng-class="{ 'selectedTab': selectedTab == 'entry'}">
+		Entry
+	</span>
+			
+	<span class="settings" ng-click="navigate($event, 'settings')" title="Update Settings" id="settingsTab" ng-class="{ 'selectedTab': selectedTab == 'settings'}">
+		Settings
+	</span>
+
+</div>
+
+
+
+
+
+
+

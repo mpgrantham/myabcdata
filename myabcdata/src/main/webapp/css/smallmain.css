@@ -1,0 +1,469 @@
+html {
+	height: 100%;
+}
+
+body {
+	font-family: arial;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	height: 100%;
+}
+
+#header {
+	width: 100%;
+	height: 70px;
+	background-color: red;
+}
+
+#header #title {
+	font-family: verdana;
+	float: left;
+	padding-left: 10px;
+	line-height: 70px;
+	vertical-align: middle;
+	color: white;
+}
+
+#titleImage {
+	float: left;
+	line-height: 70px;
+	vertical-align: middle;
+	color: white;
+	height: 70px;
+	width: 65px;
+	background-color: #3367d6;
+	background-image: url("img/ABC_64px.png"); 
+	background-repeat: no-repeat;
+	background-position: 0px 5px;
+}
+
+.titleText {
+	font-family: verdana;
+	float: left;
+	color: white;
+	font-size: 40px;
+	line-height: 70px;
+	vertical-align: middle;
+	color: white;
+	height: 70px;
+	
+}
+
+#header #title span {
+	font-size: 20px;
+	vertical-align: middle;
+	color: white;
+}
+
+#header #title span.tiltBlockRight
+{
+	transform:rotate(7deg);
+	-webkit-transform:rotate(7deg);
+	-ms-transform:rotate(7deg); 
+	margin-left: 5px;
+	padding-left: 2px; 
+	padding-right: 2px; 
+	display: inline-block; 
+	line-height: 20px;
+	background-color: white;
+	font-size: 18px;
+}
+
+#header #title span.tiltBlockLeft
+{
+	transform:rotate(353deg);
+	-webkit-transform:rotate(353deg);
+	-ms-transform:rotate(353deg); 
+	margin-left: 5px;
+	padding-left: 2px; 
+	padding-right: 2px; 
+	display: inline-block; 
+	line-height: 20px;
+	background-color: white;
+	font-size: 18px;
+}
+
+#tabBar {
+	height: 34px; 
+	line-height: 34px;
+    vertical-align: middle;
+	background: lightgrey; 
+	width: 100%;
+}
+
+#tabBar span {
+	background-repeat: no-repeat;
+	background-position: 5px center;
+	height: 34px;
+	line-height:  34px;
+    display: inline-block;
+    margin-left: 5px;
+    width: auto;
+    padding-left: 30px;
+    padding-right: 5px;
+    vertical-align: middle;
+    font-size: .8em;
+}
+
+#tabBar span:hover
+{ 
+	cursor: pointer;
+}
+ 
+.home
+{
+	background-image: url("img/home_blk.png"); 
+}
+
+.log
+{
+	background-image: url("img/database_blk.png"); 
+}
+
+.add
+{
+	background-image: url("img/add_blk.png"); 
+}
+ 
+.settings
+{
+	background-image: url("img/settings_blk.png"); 
+}
+
+.selectedTab {
+	background-color: white;
+}
+
+.submitBtn {
+	color: white;
+	background-color: #1A77E8;
+	border: 1px #1A77E8 solid;
+	border-radius: 4px;
+	font-size: .9em;
+	padding: 3px;
+}
+
+.submitBtn:hover {
+	cursor: pointer;
+}
+
+.logExport {
+	margin-left: 20px;
+}
+
+.cancelBtn {
+	border: 1px #dddddd solid;
+	border-radius: 4px;
+	font-size: .9em;
+}
+
+.cancelBtn:hover {
+	cursor: pointer;
+	background-color: #dfdfdf;
+}
+
+.disabledBtn {
+	color: #cccccc;
+	background-color: #dddddd;
+	border: 1px #cccccc solid;
+	border-radius: 4px;
+	font-size: .9em;
+	padding: 3px;
+}
+
+.linkSpan {
+	font-size: .9em;
+}
+
+.linkSpanDisabled {
+	font-size: .9em;
+	color: #cccccc;
+}
+
+.linkSpan:hover {
+	cursor: pointer;
+	color: #1A77E8;
+}
+
+
+.excelExport
+{
+	margin-left: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	/* background-repeat: no-repeat; */
+	/* background-image: url("img/Microsoft Excel_16px.png"); */
+	background-color: #3367d6;
+	color: white;
+	border: 1px #3367d6 solid;
+	border-radius: 4px;
+	font-size: .9em;
+}
+
+.excelExport:hover {
+	cursor: pointer;
+}
+
+.excel
+{
+	background-image: url("img/Microsoft Excel_16px.png"); 
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	background-position: 2px center;
+	border: 0;
+}
+
+
+.colorOrange
+{
+	color: orange !important; 
+	border: 1px solid orange; 
+	background-color: white;
+	padding-left: 3px; 
+	padding-right: 3px; 
+}
+
+.colorRed
+{
+	color: red !important;  
+	border: 1px solid red;
+	background-color: white;
+	padding-left: 3px; 
+	padding-right: 3px; 
+}
+
+.colorGreen
+{
+	color: green !important; 
+	border: 1px solid green;
+	background-color: white;
+	padding-left: 3px; 
+	padding-right: 3px; 
+}
+
+.forgotSection {
+	padding-top: 10px;
+}
+
+.forgotSection a {
+	text-decoration: none;
+	font-size: .85em;
+	color: #000000;
+}
+
+	
+#header #links {
+	float: right;
+	padding-right: 5px;
+	line-height: 70px;
+	color: white;
+}
+
+#header #links span {
+	font-size: .8em;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+#header #links a {
+	text-decoration: none;
+	color: white;
+}
+
+#header #links a:hover
+{ 
+	text-decoration: underline;
+}
+
+#contentArea {
+	background-color: white; 
+	width: 100%; 
+	height: 100%;
+	
+}
+
+.abcDiv
+{
+	padding-left: 5px; 
+	height: 120px; 
+	overflow-y: auto; 
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+
+.abcTab
+{
+	padding-left: 5px !important;
+	padding-right: 5px !important;
+	width: auto !important;
+}
+
+.addValueNormal
+{
+	font-size: .9em; 
+	color: #1A77E8; 
+	font-weight: bold; 
+	display: block; 
+	background-color: #f2f2f2;
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	padding-left: 5px;
+}
+
+.addValueSuccess
+{
+	font-size: .9em; 
+	color: green; 
+	font-weight: bold; 
+	display: block; 
+	background-color: #f2f2f2;
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	background-image: url("img/Ok_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding-left: 30px;
+}
+
+.addValueError
+{
+	font-size: .9em; 
+	color: red; 
+	font-weight: bold; 
+	display: block; 
+	background-color: #f2f2f2;
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	background-image: url("img/Error_16px.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding-left: 30px;
+}
+
+.scrollContent
+{
+	padding: 5px 10px 5px 10px; 
+	overflow: auto; 
+	height: calc(100% - 124px); 
+	width: 98%;
+}
+
+.hideElement {
+	display: none;
+}
+
+.showElement {
+	display: inline-block;
+}
+
+.hideDiv {
+	display: none;
+}
+
+.showDiv {
+	display: block;
+}
+
+.normalMessage {
+	color: black;
+}
+
+.successMessage {
+	color: green;
+}
+
+.errorMessage {
+	color: red;
+}
+
+.twoDigit {
+	width: 20px; 
+	text-align: center;
+}
+
+.grid {
+  width: calc(100% - 10px);
+  height: calc(100% - 100px);
+}
+
+.alignRight {
+	text-align: right;
+}
+
+.logDate {
+	
+}
+
+.logDate:hover {
+	color: blue;
+	cursor: pointer;
+}
+
+.navButton {
+	width: 35px;
+}
+
+.navLink
+{
+	font-size:14px; 
+	display: inline-block; 
+	width: 250px; 
+	text-align: center;
+}
+
+.navLink a {
+    text-decoration: none;
+    color: black;
+}
+
+.navLink a:hover {
+   color: blue;
+   text-decoration: none;
+}
+
+
+.sectionSpan
+{
+	float: left; 
+	width: 270px;
+	vertical-align: top;
+	padding: 2px 2px 2px 2px;
+	margin: 0px 0px 0px 0px;
+}
+
+.td-required 
+{
+	padding-top: 5px;
+	width: 10px;
+}
+
+.td-label 
+{
+	padding-top: 5px;
+	width: 120px;
+}
+
+.td-input 
+{
+	padding-top: 5px;
+}
+
+.form-label {
+	font-size: 0.8em;
+	padding-top: 10px; 
+	color: blue; 
+	font-weight: bold;
+}
+
+
+
+
+

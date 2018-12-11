@@ -1,0 +1,22 @@
+angular
+	.module('MyABCData',
+    [
+    	'ngMaterial',
+    	'ngRoute',
+    	'ui.grid',
+    	'ui.grid.resizeColumns',
+    	'ui.grid.selection', 
+    	'ui.grid.pinning',
+    	'header',
+    	'headerController',
+    	'signInController',
+    	'registerController',
+    	'resetController',
+    	'homeController',
+    	'entryController',
+    	'logController',
+    	'settingsController',
+    	'userModel',
+    	'observedModel',
+    	'entryModel'
+    ]);
