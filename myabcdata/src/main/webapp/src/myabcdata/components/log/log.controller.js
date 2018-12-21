@@ -113,10 +113,8 @@ function LogCtrl($rootScope, $scope, $window, $location, uiGridConstants, UserMo
     	$location.path('entry');
     }
     
-    $scope.exportLog = function exportLog($event)
+    $scope.exportLog = function exportLog()
     {
-    	$event.preventDefault();
-    	
     	$window.location.href = 'exportLog?obsId=' + $scope.observedId;
     }
 

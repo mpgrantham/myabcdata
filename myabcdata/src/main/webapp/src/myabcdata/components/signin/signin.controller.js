@@ -95,7 +95,7 @@ function SignInCtrl($scope, $location, UserModel, ObservedModel)
     	
     	$scope.forgotType = type;
     	$scope.showForgotSection = 1;
-    	$scope.forgotMessage = 'Provide the Email associated with the User. The ' + type + ' will be sent to you.';
+    	$scope.forgotMessage = 'Provide the Email associated with the User. The ' + (type == 'Password' ? 'Password Reset Link' : 'Username') + ' will be sent to you.';
     }
     
     $scope.enableSend = function enableSend($event)

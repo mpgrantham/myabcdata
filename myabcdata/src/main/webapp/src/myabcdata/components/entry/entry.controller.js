@@ -28,6 +28,36 @@ function EntryCtrl ($rootScope, $scope, $location, $window, $routeParams, $sce, 
 	$scope.valueTypeCd = 'A';
 	$scope.typeValue = '';
 	$scope.currentValueTypeCd = 'Antecedent';
+	
+	// Date Popup
+	$scope.maxDate = new Date();
+	
+	$scope.dateStatus = {
+		    opened: false
+		  };
+	
+	 $scope.popup1 = {
+			    opened: false
+			  };
+
+	
+	 $scope.dateOptions = {
+			    dateDisabled: false,
+			    formatYear: 'yy',
+			    maxDate: new Date(),
+			    showWeeks: false,
+			    startingDay: 1
+			  };
+
+	 $scope.altInputFormats = ['M!/d!/yyyy'];
+
+
+	
+	$scope.openDatePicker = function($event) {
+		$scope.dateStatus.opened = true;
+	  };
+
+
 		
     $scope.init = function init()
     {
@@ -77,23 +107,27 @@ function EntryCtrl ($rootScope, $scope, $location, $window, $routeParams, $sce, 
     	
     	ObservedModel.initObserved(observedId_Param);
     	
-    	$scope.currentObserved = ObservedModel.currentObserved;
     	$scope.observedId = ObservedModel.observedId;
     	
-    	if ( incidentId_Param > 0 )
+    	$scope.currentObserved = ObservedModel.currentObserved;
+    	ObservedModel.getObservedABCs().then(function()
     	{
-    		ObservedModel.setIncident(incidentId_Param);
-    	}
+    		if ( incidentId_Param > 0 )
+        	{
+        		ObservedModel.setIncident(incidentId_Param);
+        	}
+    	});
+    	
     	
     	$scope.incident = ObservedModel.incident;
     	
+    	/*
     	var element = document.getElementById('incidentDate');
     	element.select();
     	element.focus();
+    	*/
     	    	    	
-    	ObservedModel.getObservedABCs().then(function()
-        {
-    	});
+    	
     		
     	if ( $scope.intensities.length == 0 )
     	{
@@ -101,6 +135,27 @@ function EntryCtrl ($rootScope, $scope, $location, $window, $routeParams, $sce, 
     		{
     			$scope.intensities = EntryModel.intensities;
     		});
+    	}
+    }
+    
+    $scope.getMessageIcon = function getMessageIcon()
+    {
+    	if ( $scope.status == 1 )
+    	{
+    		if ( $scope.incident.id == 0 )
+    		{
+    			return 'glyphicon-plus';
+    		}
+    		
+    		return 'glyphicon-pencil';
+    	}
+    	else if ( $scope.status == 0 )
+    	{
+    		return 'glyphicon-ok';
+    	}
+    	else
+    	{
+    		return 'glyphicon-remove';
     	}
     }
     
@@ -121,9 +176,11 @@ function EntryCtrl ($rootScope, $scope, $location, $window, $routeParams, $sce, 
     	
     	$scope.incident = ObservedModel.incident;
     	
+    	/*
     	var element = document.getElementById('incidentDate');
     	element.select();
     	element.focus();
+    	*/
     	
     	ObservedModel.getObservedABCs().then(function()
         {
@@ -186,7 +243,7 @@ function EntryCtrl ($rootScope, $scope, $location, $window, $routeParams, $sce, 
 			}
     	}
 		);
-    }
+	}
     
     $scope.cancel = function cancel()
     {
@@ -198,16 +255,16 @@ function EntryCtrl ($rootScope, $scope, $location, $window, $routeParams, $sce, 
     	$location.path('log');
     }
     
-    $scope.exportDataSheet = function exportDataSheet($event)
+    $scope.exportDataSheet = function exportDataSheet()
     {
-    	$event.preventDefault();
+    	//$event.preventDefault();
     	
     	$window.location.href = 'exportDataSheet?obsId=' + $scope.observedId;
     }
     
-    $scope.showAddValue = function showAddValue($event)
+    $scope.showAddValue = function showAddValue()
     {
-    	$event.preventDefault();
+    	//$event.preventDefault();
     	
     	if ( $scope.showAdd )
     	{

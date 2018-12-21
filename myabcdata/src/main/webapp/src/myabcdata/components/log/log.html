@@ -2,21 +2,27 @@
        
     <div ng-hide="observed.length == 0" style="height: 100%;">  
     
-	    <section style="padding-bottom: 5px; padding-top: 10px;">
-	    	
-	    	<span class="form-label" style="display: block; padding: 0 0 3px 0;">Observed</span>
-	    	
-	    	<select name="observed" id="observed" ng-model="observedId" ng-change="changeObserved()" style="width: 200px;">
-				<option ng-repeat="option in observed" value="{{option.strId}}">{{option.observedNm}}</option>
-			</select>
+       
+	    <div class="row">
+     		
+     		<div class="col-sm-3">
+     		
+				<div class="form-group">
+					<label for="observedSel">Observed</label>
+				  	<select id="observedSel" ng-model="observedId" ng-change="changeObserved()" class="form-control" style="width: 300px;">
+						<option ng-repeat="option in observed" value="{{option.strId}}">{{option.observedNm}}</option>
+					</select>
+				</div> 
 			
+			</div>
 			
-			<span class="submitBtn logExport" ng-click="exportLog($event)" title="Export Log for Observed">
-			Export
-			</span>
+			<div class="col-sm-9" style="padding-top: 25px;">
 			
-	    	
-	    </section>
+				<button class="btn btn-primary" ng-click="exportLog($event)" uib-tooltip="Export Log for {{currentObserved.observedNm}}">Data Sheet</button>
+				
+			</div>
+		
+		</div> <!--  End Select Observed Row -->
 	    
 	    <div id="incidentGrid" ui-grid="gridOptions" class="grid" ui-grid-resize-columns ui-grid-pinning ui-grid-selection></div>
     

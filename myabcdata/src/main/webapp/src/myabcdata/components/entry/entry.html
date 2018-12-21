@@ -1,194 +1,197 @@
 <div class="scrollContent">
 
-	    
-    <div ng-bind-html="message" ng-class="{'normalMessage': status == 1, 'successMessage': status == 0, 'errorMessage': status == 2}">
+	
+    <div class="addValueMessage" style="margin-bottom: 5px;" ng-class="{'messageSuccess': status == 0, 'messageError': status == 2}"><span class="glyphicon" ng-class="getMessageIcon()"></span> 
+    <span ng-bind-html="message"></span>
     </div>
-    
-    
-     <div ng-hide="observed.length == 0">  
-    
-        
-    <section style="padding-bottom: 5px; padding-top: 10px;">
-    	
-    	<span class="form-label" style="display: block; padding: 0 0 3px 0;">Observed</span>
-    	
-    	<select name="observed" id="observed" ng-model="observedId" ng-change="changeObserved()" style="width: 200px; height: 22px;">
-			<option ng-repeat="option in observed" value="{{option.strId}}">{{option.observedNm}}</option>
-		</select>
-		
-		<span class="submitBtn logExport" ng-click="exportDataSheet($event)" title="Export Data Sheet for Observed">
-		Data Sheet
-		</span>
-		
-		<span class="submitBtn logExport" ng-click="showAddValue($event)" title="Add ABC or Location for Observed">
-		Add Value
-		</span>
-		
-		<div class="addValueDiv" ng-class="showAdd ? 'showDiv' : 'hideDiv'">
-			<span ng-class="{'addValueNormal': addStatus == 1, 'addValueSuccess': addStatus == 0, 'addValueError': addStatus == 2}">
-			{{addMessage}}
-			</span>
-		
-			<span style="font-size: .9em; margin-bottom: 5px; display: block;">
-				<label>
-				    <input type="radio" ng-model="valueTypeCd" value="A" ng-change="changeValueType('Antecedent')">Antecedent
-				</label>
-				<label style="margin-left: 5px;">
-				    <input type="radio" ng-model="valueTypeCd" value="B" ng-change="changeValueType('Behavior')">Behavior
-				</label>
-				<label style="margin-left: 5px;">
-				    <input type="radio" ng-model="valueTypeCd" value="C" ng-change="changeValueType('Consequence')">Consequence
-				</label>
-				<label style="margin-left: 5px;">
-				    <input type="radio" ng-model="valueTypeCd" value="L" ng-change="changeValueType('Location')">Location
-				</label>
-			</span>
-			
-			<span style="padding-left: 5px; font-size: .9em; display: inline-block; width: 90px;">{{currentValueTypeCd}}</span>
-			<input type="text" name="typeValue" id="typeValue" ng-model="typeValue"/>
-    		<button ng-click="addValue()">Add</button>
-    		<button ng-click="closeAddValue()">Close</button>
-    		
-		</div>
-		
-		
-		
-    </section>
-    
-    <table style="width: 100%">
-    	<tr>
-    		<td>
-    		
-    		<table>
-    		
-    	<tr>
-    		<td class="form-label">Incident Date</td>
-    		<td class="form-label" style="padding-left: 15px;">Incident Time</td>
-    	</tr>
-    	<tr>
-    		<td>
-    			<input type="text" name="incidentDate" id="incidentDate" ng-model="incident.incidentDate" style="width: 75px; text-align: center;"/>
-    		</td>
-    	
-    		<td style="padding-left: 15px;">
-    			<input type="text" name="incidentTimeHH" id="incidentTimeHH" ng-model="incident.incidentTimeHour" class="twoDigit"/>
-    			:
-    			<input type="text" name="incidentTimeMM" id="incidentTimeMM" ng-model="incident.incidentTimeMinute" class="twoDigit"/>
-    			&nbsp;
-    			<select name="incidentTimeAP" id="incidentTimeAP" ng-model="incident.incidentTimeAmPm" ng-options="opt for opt in amPmOtions" style="height: 22px;">
-	    		</select>
-    		</td>
-    		
-    	</tr>
-    	
-    	<tr>
-    		<td class="form-label">Duration <span style="font-size: .8em;">(mm:ss)</span></td>
-    		<td class="form-label" style="padding-left: 15px;">Intensity</td>
-    	</tr>
-    	<tr>
-    		<td>
-    			<input type="text" name="durationMin" id="durationMin" ng-model="incident.durationMinutes" class="twoDigit"/>
-    			<span>:</span>
-    			<input type="text" name="durationSeconds" id="durationSeconds" ng-model="incident.durationSeconds" class="twoDigit"/>
-    		</td>
-    	
-    		<td style="padding-left: 15px;">
-    			<select name="instensity" id="instensity" ng-model="incident.intensityId" style="width: 100%; height: 22px;">
-					<option ng-repeat="option in intensities" value="{{option.strId}}">{{option.value}}</option>
-				</select>
-    		</td>
-    		
-    	</tr>
-    	
-    	</table>
-    	
-    	</td>
-    	</tr>
-    	
-    	<tr>
-    		<td colspan="2" class="form-label">Location</td>
-    	</tr>
-    	
-    	<tr>
-    		<td colspan="2">
-    			<select name="location" id="location" ng-model="incident.locationId" ng-focus="locationFocus()" style="width: 100%; height: 22px;">
-					<option ng-repeat="option in currentObserved.locations" value="{{option.strId}}">{{option.typeValue}}</option>
-				</select>
-    		</td>
-    	</tr>
-    	
-    	
-    	<tr>
-    		<td colspan="2" style="padding-top: 10px;">
-    			<div id="tabBar">
-
-					<span ng-click="switchTab(0)" ng-class="{ 'selectedTab': selectedTabIdx == 0}" class="abcTab"> 
-						Antecedent 
-					</span>
-					
-					<span ng-click="switchTab(1)" ng-class="{ 'selectedTab': selectedTabIdx == 1}" class="abcTab" style="padding-left: 5px;"> 
-						Behavior 
-					</span>
-					
-					<span ng-click="switchTab(2)" ng-class="{ 'selectedTab': selectedTabIdx == 2}" class="abcTab" style="padding-left: 5px;">
-						Consequence
-					</span>
+  
+	<div ng-hide="observed.length == 0">  
+     
+     	<div class="container" style="margin: 0; padding: 0;">
+     	     		     		
+     		<div class="row">
+     		
+	     		<div class="col-sm-5">
+	     		
+					<div class="form-group">
+						<label for="observedSel">Observed</label>
+					  	<select id="observedSel" ng-model="observedId" ng-change="changeObserved()" class="form-control" style="width: 300px;">
+							<option ng-repeat="option in observed" value="{{option.strId}}">{{option.observedNm}}</option>
+						</select>
+					</div> 
+				
 				</div>
-    			<div id="antecedentDiv" ng-class="selectedTabIdx == 0 ? 'showDiv' : 'hideDiv'"
-    						class="abcDiv">
-    				<span ng-repeat="val in currentObserved.antecedents" class="sectionSpan">
-    					<label>
-    						<input type="checkbox" name="antecedents" value="{{val.valueId}}" ng-model="val.selectedFlag"/> {{val.typeValue}}
-    					</label>
-    				</span>
-    			</div>
-    			
-    			<div id="behaviorDiv" ng-class="selectedTabIdx == 1 ? 'showDiv' : 'hideDiv'"
-    						class="abcDiv">
-    				<span ng-repeat="val in currentObserved.behaviors" class="sectionSpan">
-    					<label>
-    						<input type="checkbox" name="currentObserved.behaviors" value="{{val.valueId}}" ng-model="val.selectedFlag"/> {{val.typeValue}}
-    					</label>
-    				</span>
-    			</div>
-    			
-    			<div id="consequenceDiv" ng-class="selectedTabIdx == 2 ? 'showDiv' : 'hideDiv'"
-    					class="abcDiv">
-    				<span ng-repeat="val in currentObserved.consequences" class="sectionSpan">
-    					<label>
-    						<input type="checkbox" name="currentObserved.consequences" value="{{val.valueId}}" ng-model="val.selectedFlag"/> {{val.typeValue}}
-    					</label>
-    				</span>
-    			</div>
-    			
-    		</td>
-    	</tr>
+				
+				<div class="col-sm-7" style="padding-top: 24px;">
+				
+					<button class="btn btn-primary" style="margin-left: 10px;" ng-click="exportDataSheet()" uib-tooltip="Export PDF Data Sheet for {{currentObserved.observedNm}}">Data Sheet</button>
+					
+					<button class="btn btn-primary" style="margin-left: 10px;" ng-click="showAddValue()" uib-tooltip="Add ABC or Location for {{currentObserved.observedNm}}">Add Value</button>
+				
+				</div>
+			
+			</div> <!--  End Select Observed Row -->
+			
+			<div class="addValueDiv" ng-class="showAdd ? 'showDiv' : 'hideDiv'">
+			
+				<div class="addValueMessage" ng-class="{'messageSuccess': addStatus == 0, 'messageError': addStatus == 2}"><span class="glyphicon" ng-class="{'glyphicon-plus': addStatus == 1, 'glyphicon-ok': addStatus == 0, 'glyphicon-remove': addStatus == 2}"></span> {{addMessage}}</div>
+					
+			
+			 <div class="btn-group" style="margin-bottom: 5px; margin-top: 5px;">
+		        <label class="btn btn-primary" ng-model="valueTypeCd" uib-btn-radio="'A'" ng-change="changeValueType('Antecedent')">Antecedent</label>
+		        <label class="btn btn-primary" ng-model="valueTypeCd" uib-btn-radio="'B'" ng-change="changeValueType('Behavior')">Behavior</label>
+		        <label class="btn btn-primary" ng-model="valueTypeCd" uib-btn-radio="'C'" ng-change="changeValueType('Consequence')">Consequence</label>
+		        <label class="btn btn-primary" ng-model="valueTypeCd" uib-btn-radio="'L'" ng-change="changeValueType('Location')">Location</label>
+		    </div>
+			
+		
+			<div class="row">
+     		
+	     		<div class="col-sm-4">
+	     		
+					<div class="form-group">
+						<label for="typeValue">{{currentValueTypeCd}}</label>
+						
+						<input type="text" id="typeValue" class="form-control" ng-model="typeValue"/>
+						
+					</div> 
+				
+				</div>
+				
+				<div class="col-sm-8" style="padding-top: 24px;">
+				
+					<button class="btn btn-primary" ng-click="addValue()">Add</button>
+					
+					<button class="btn" style="margin-left: 10px;" ng-click="closeAddValue()">Close</button>
+				
+				</div>
+			
+			</div> <!--  End Add Value Row -->
+							
+			</div>  <!--  End Add Value Section -->
+			
+			<div class="row">
+     		
+	     		<div class="col-sm-3">
+	     		
+					<div class="form-group">
+						<label for="incidentDate">Incident Date</label>
+						<p class="input-group">
+				          <input type="text" class="form-control" uib-datepicker-popup="M!/d!/yyyy" ng-model="incident.incidentDate" is-open="dateStatus.opened" datepicker-options="dateOptions" ng-required="true" show-button-bar="false" close-text="Close"  />
+				          <span class="input-group-btn">
+				            <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+				          </span>
+				        </p>
+					</div> 
+				
+				</div>
+				
+				<div class="col-sm-9">
+				
+					<label for="incidentTimeHH">Incident Time</label>
+				
+					<div uib-timepicker ng-model="incident.incidentTime" show-spinners="false" show-meridian="true"></div>
+	    			
+				</div>
+						
+			</div> <!--  End Date/Time Row -->
+			
+			<div class="row">
+     		
+	     		<div class="col-sm-3">
+	     		
+					<div class="form-group">
+						<label for="incidentDate">Duration</label>
+						
+						<input type="text" class="form-control" style="width: 80px; text-align: center;" ng-model="incident.duration" placeholder="00:00" ui-mask="99:99" ui-mask-placeholder ui-mask-placeholder-char="_"/>
+						
+					</div> 
+				
+				</div>
+				
+				<div class="col-sm-9">
+				
+					<div class="form-group">
+						<label for="instensity">Intensity</label>
+					
+						<select id="instensity" class="form-control" ng-model="incident.intensityId">
+							<option ng-repeat="option in intensities" value="{{option.strId}}">{{option.value}}</option>
+						</select>
+					</div>
+	
+				</div>
+				
+			
+			</div> <!--  End Duration/Intensity Row -->
+			
+			<div class="form-group">
+				
+					<label for="location">Location</label>
+														
+					<select class="form-control" id="location" ng-model="incident.locationId" ng-focus="locationFocus()">
+						<option ng-repeat="option in currentObserved.locations" value="{{option.strId}}">{{option.typeValue}}</option>
+					</select>
+	
+			</div>
+			
+			
+			<uib-tabset active="active">
+						
+			    <uib-tab index="0" heading="Antecedent" ng-click="switchTab(0)" >
+			    	<div id="antecedentDiv" class="abcDiv">
+	    				<span ng-repeat="val in currentObserved.antecedents" class="sectionSpan">
+	    					<label>
+	    						<input type="checkbox" name="antecedents" value="{{val.valueId}}" ng-model="val.selectedFlag"/> {{val.typeValue}}
+	    					</label>
+	    				</span>
+    				</div>
+			    </uib-tab>
+			    
+			     <uib-tab index="1" heading="Behavior" ng-click="switchTab(1)" >
+			    	<div id="behaviorDiv"  class="abcDiv">
+	    				<span ng-repeat="val in currentObserved.behaviors" class="sectionSpan">
+	    					<label>
+	    						<input type="checkbox" name="currentObserved.behaviors" value="{{val.valueId}}" ng-model="val.selectedFlag"/> {{val.typeValue}}
+	    					</label>
+	    				</span>
+	    			</div>
+			    </uib-tab>
+			    
+			    <uib-tab index="2" heading="Consequence" ng-click="switchTab(2)" >
+			    
+			    	<div id="consequenceDiv" class="abcDiv">
+		   				<span ng-repeat="val in currentObserved.consequences" class="sectionSpan">
+		   					<label>
+		   						<input type="checkbox" name="consequences" value="{{val.valueId}}" ng-model="val.selectedFlag"/> {{val.typeValue}}
+		   					</label>
+		   				</span>
+		   			</div>
+			    	
+			    </uib-tab>
+			    
+			 </uib-tabset>
+			 
+			 <div class="form-group" style="margin-top: 15px;">
+						
+					<label for="description">Description</label>
+																
+					<textarea class="form-control" id="description" ng-model="incident.description" rows="2" maxlength="180" style="width: 100%">
+					</textarea>
+			
+				</div>
+				
+		<div class="row">
+			<div class="col-sm-12">
+			
+				<button class="btn btn-primary"  ng-click="save()">Save</button>
+    			<button class="btn" style="margin-left: 10px;" ng-click="cancel()" ng-if="status > 0">Cancel</button>
+	    		<button class="btn" style="margin-left: 10px;" ng-click="doneSave()" ng-if="status == 0">Done</button>
+			
+			</div>
+		</div> <!--  End Buttons Row -->
     	
-    	<tr>
-    		<td colspan="2" class="form-label">Description (optional)</td>
-    	</tr>
-    	
-    	<tr>
-    		    	
-    		<td colspan="2">
-    			<textarea name="description" id="description" ng-model="incident.description" rows="3" maxlength="180" style="width: 100%">
-				</textarea>
-    		</td>
-    	</tr>
-    	
-    	<tr>
-    		<td colspan="2">
-    			<button ng-click="save()">Save</button>
-    			&nbsp;&nbsp;&nbsp;
-	    		<button ng-click="cancel()" ng-if="status > 0">Cancel</button>
-	    		<button ng-click="doneSave()" ng-if="status == 0">Done</button>
-    		</td>
-    	</tr>
-    	
-    </table>
+    	</div>
     
     </div> <!--  end hide if no observed -->
-    
-    
    
 </div>

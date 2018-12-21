@@ -1,261 +1,52 @@
 <div class="scrollContent">
-    
-    <div ng-class="showUserSettings ? 'collapseHeader' : 'expandHeader'" ng-click="showUserSettings = ! showUserSettings">User Settings</div>
-    
-	<div class="settingsDiv" ng-class="showUserSettings ? 'showDiv' : 'hideDiv'">
-   	<table>
-    	<tr>
-    		<td>Username</td>
-    		<td>
-    			<input type="text" name="username" id="username" ng-model="user.username" style="width: 150px;"/>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Password</td>
-    		<td> 
-    			<input type="password" name="password" id="password" ng-model="user.password" style="width: 150px;"/>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Email</td>
-    		<td> 
-    			<input type="email" name="email" id="email" ng-model="user.email" style="width: 300px;"/>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Start Page</td>
-    		<td> 
-	    		<select name="startPage" id="startPage" ng-model="user.startPage">
-	    			<option ng-repeat="option in startPages" value="{{option}}">{{option}}</option>
-	    		</select>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>&nbsp;</td>
-    		<td>
-    			<button ng-click="update()">Update</button>
-    			&nbsp;&nbsp;&nbsp;
-	    		<button ng-click="cancelUpdate()" ng-if="status > 0">Cancel</button>
-	    		<button ng-click="doneUpdate()" ng-if="status == 0">Done</button>
-    		</td>
-    	</tr>
-    </table>
-    </div>
-    
-    <div ng-class="showUserSettings ? 'expandHeader' : 'collapseHeader' " ng-click="showUserSettings = ! showUserSettings">Observed Settings</div>
-    
-    <div class="settingsDiv" ng-class="showUserSettings ? 'hideDiv' : 'showDiv'">
-    
-    	<span class="form-label" style="display: block; padding: 0 0 3px 0;">Observed</span>
-    	
-    	<div style="height: 27px; line-height: 27px; vertical-align: middle;">
-			<span style="padding-left: 15px;" class="linkSpan" ng-click="showAddObserved($event)" title="Add Observed">
-				Add
-			</span>
-			<span style="padding-left: 10px;" ng-class="observedId == '0' || currentObserved.role != 'ADMIN' ? 'linkSpanDisabled' : 'linkSpan'" ng-click="showEditObserved($event)" title="Edit Observed">
-				Edit
-			</span>
-			<span style="padding-left: 10px;" ng-class="observedId == '0' || currentObserved.role == 'ADMIN' ? 'linkSpanDisabled' : 'linkSpan'" ng-click="showRemoveObserved($event)" title="Remove Access to Observed">
-				Remove Access
-			</span>
-		</div>
-    	
-    	<div class="addValueDiv" ng-class="showAddObservedFl ? 'showDiv' : 'hideDiv'" style="margin-bottom: 5px;">
-				
-				<span ng-class="{'addValueNormal': addObservedStatus == 1, 'addValueSuccess': addObservedStatus == 0, 'addValueError': addObservedStatus == 2}">
-				{{addObservedMessage}}
-				</span>
-			
-				<span style="display: inline-block; padding-top: 5px; padding-left: 5px; ">
-					<label style="font-size: .9em;">Observed Name
-						<input type="text" name="observedNm" id="observedNm" ng-model="observedNm" ng-disabled="modifyObservedAction == 'Remove'"/>
-					</label>
-					
-					<label style="font-size: .9em; margin-left: 5px;">Relationship
-						<select name="relationship" id="relationship" ng-model="relationshipId" ng-disabled="modifyObservedAction == 'Remove'" style="height: 22px;">
-							<option ng-repeat="option in relationships" value="{{option.strId}}">{{option.value}}</option>
-						</select>
-					</label>
-					
-		    		<button ng-if="modifyObservedAction == 'Add'" ng-click="addObserved()">Add</button>
-		    		<button ng-if="modifyObservedAction == 'Update'" ng-click="editObserved()">Update</button>
-		    		<button ng-if="modifyObservedAction == 'Remove'" ng-click="removeObserved()">Remove</button>
-		    		<button ng-click="closeAddObserved()">Close</button>
-	    		</span>
-	    		
-			</div>
-    	
-    	<table class="accessGrid">
-			<tr style="background-color: #f2f2f2;">
-				<td>&nbsp;</td>
-				<td>Observed Name</td>
-				<td>Role</td>
-				<td>Relationship</td>
-			</tr>
-			<tr ng-repeat="obs in observed">
-				<td>
-					<input type="radio" name="observedRadio" ng-change="changeObserved()" ng-model="$parent.observedId" value="{{obs.strId}}">
-				</td>
-			    <td style="width: 200px;">{{obs.observedNm}}</td>
-			    <td style="width: 70px;">{{obs.role}}</td>
-			    <td style="width: 70px;">{{obs.relationship}}</td>
-			</tr>
-		</table>
-      
-		
-		<div ng-hide="observed.length == 0 || currentObserved.role != 'ADMIN'">
-		
-		<span class="form-label" style="display: block; padding: 0 0 3px 0; margin-top: 10px; marging-bottom: 5px;">ABCs &amp; Locations ({{currentObserved.observedNm}})</span>
-		
-		<!-- ABCs and Locations section -->
-	    <div id="tabBar">
+
+	<uib-accordion close-others="true">
 	
-			<span ng-click="switchTab(0)" ng-class="{ 'selectedTab': selectedTabIdx == 0}" class="abcTab"> 
-				Antecedent 
-			</span>
+		<div uib-accordion-group class="panel-default" heading="User Settings" is-open="true" is-disabled="false">
+	    	
+	    	<div class="form-group">
+		        <label for="username" class="control-label">Username</label>
+		        <input class="form-control" type="text" id="username" ng-model="user.username" placeholder="Username"/>
+		    </div>
+		    
+		     <div class="form-group">
+		          <label for="password" class="control-label">Password</label>
+		          <input class="form-control" type="password" id="password" ng-model="user.password" placeholder="Password" required/>
+		     </div>
+		     
+		     <div class="form-group">
+		          <label for="email" class="control-label">Email</label>
+		          <input class="form-control" type="email" id="email" ng-model="user.email" placeholder="Email" required/>
+		     </div>
+		     
+		     <div class="form-group">
+				<label for="startPage">Start Page</label>
+				<select class="form-control" id="startPage" ng-model="user.startPage">
+			    	<option ng-repeat="option in startPages" value="{{option}}">{{option}}</option>
+			    </select>
+			  	
+			</div> 
 			
-			<span ng-click="switchTab(1)" ng-class="{ 'selectedTab': selectedTabIdx == 1}" class="abcTab" style="padding-left: 5px;"> 
-				Behavior 
-			</span>
-			
-			<span ng-click="switchTab(2)" ng-class="{ 'selectedTab': selectedTabIdx == 2}" class="abcTab" style="padding-left: 5px;">
-				Consequence
-			</span>
-			
-			<span ng-click="switchTab(3)" ng-class="{ 'selectedTab': selectedTabIdx == 3}" class="abcTab" style="padding-left: 5px;">
-				Location
-			</span>
-		</div>
+			<div>
+		       	<button class="btn btn-primary" ng-click="update()">Update</button>
+		    	<button class="btn"  style="margin-left: 10px;" ng-click="cancelUpdate()" ng-if="status > 0">Cancel</button>
+			    <button class="btn"  style="margin-left: 10px;"ng-click="doneUpdate()" ng-if="status == 0">Done</button>
+		     </div>
+		     
+	    </div>
+	    
+	    <div uib-accordion-group class="panel-default" heading="Observed Settings" is-open="false" is-disabled="false">
+	    
+	    	<observedsettings></observedsettings>
+	    			
+	    </div>  <!--  End Observed Accordion Group -->
+		
+	</uib-accordion>
 	
-		<div style="border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
-			<div style="height: 27px; line-height: 27px; vertical-align: middle;">
-				<span style="padding-left: 15px;" class="linkSpan" ng-click="showModify($event, 'Add')" title="Add {{abcTabs[selectedTabIdx]}} for Observed">
-					Add
-				</span>
-				<span style="padding-left: 10px;" ng-class="selectedId == 0 ? 'linkSpanDisabled' : 'linkSpan'" ng-click="showModify($event, 'Update')" title="Edit {{abcTabs[selectedTabIdx]}} for Observed">
-					Edit
-				</span>
-				<span style="padding-left: 10px;" ng-class="selectedId == 0 ? 'linkSpanDisabled' : 'linkSpan'" ng-click="showModify($event, 'Delete')" title="Delete {{abcTabs[selectedTabIdx]}} for Observed">
-					Delete
-				</span>
-			</div>
-			
-			<div ng-class="showModifyFl ? 'showDiv' : 'hideDiv'" style="padding-left: 15px; padding-bottom: 5px;">
-				<input type="text" name="typeValue" id="typeValue" ng-model="typeValue" ng-disabled="modifyAction == 'Delete'"/>
-	    		<button ng-click="modify()">{{modifyAction}}</button>
-	    		<button ng-click="closeModify()">Close</button>
-	    		
-	    		<span ng-class="showModifyMessage ? 'showElement' : 'hideElement'">
-	    			<span ng-class="modifyStatus == 0 ? 'successMessage' : 'errorMessage'">{{modifyMessage}}</span>
-	    		</span>
-			</div>
-		</div>
 	
-		<div id="antecedentDiv" ng-class="selectedTabIdx == 0 ? 'showDiv' : 'hideDiv'" class="abcDiv">
-			<span ng-repeat="val in currentObserved.antecedents" class="sectionSpan">
-				<label>
-					<input type="radio" name="antecedentRadio" ng-model="$parent.selectedId"	value="{{val.valueId}}">{{val.typeValue}}
-				</label>
-			</span>
-		</div>
- 			
-	 	<div id="behaviorDiv" ng-class="selectedTabIdx == 1 ? 'showDiv' : 'hideDiv'" class="abcDiv">
-	 		<span ng-repeat="val in currentObserved.behaviors" class="sectionSpan">
-	 			<label>
-	 				<input type="radio" name="behaviorRadio" ng-model="$parent.selectedId" value="{{val.valueId}}">{{val.typeValue}}
-	 			</label>
-	 		</span>
-	 	</div>
-	 			
-	 	<div id="consequenceDiv" ng-class="selectedTabIdx == 2 ? 'showDiv' : 'hideDiv'"	class="abcDiv">
-	 		<span ng-repeat="val in currentObserved.consequences" class="sectionSpan">
-	 			<label>
-	 				<input type="radio" name="consequenceRadio" ng-model="$parent.selectedId" value="{{val.valueId}}">{{val.typeValue}}
-	 			</label>
-	 		</span>
-	 	</div>
-	 	
-	 	<div id="locationDiv" ng-class="selectedTabIdx == 3 ? 'showDiv' : 'hideDiv'" class="abcDiv">
-	 		<span ng-repeat="val in currentObserved.locations" class="sectionSpan" >
-	 		<!--  need to skip first N/A -->
-	 			<label>
-	 				<input type="radio" name="locationRadio" ng-model="$parent.selectedId" value="{{val.valueId}}">{{val.typeValue}}
-	 			</label>
-	 		</span>
-	 	</div>
-	 	
-	 	</div>
-		
-		<!-- Access Section -->
-		<div ng-hide="observed.length == 0 || currentObserved.role != 'ADMIN'" style="margin-top: 10px;">
-		
-			<span class="form-label" style="display: block; padding: 0 0 3px 0;">Access ({{currentObserved.observedNm}})</span>
-		
-			<div style="height: 27px; line-height: 27px; vertical-align: middle;">
-				<span class="linkSpan" ng-click="showGrantAccess($event, 'Grant')" title="Grant Access for Observed">
-					Grant
-				</span>
-				<span style="padding-left: 10px;" ng-class="selectedUserId == 0 ? 'linkSpanDisabled' : 'linkSpan'" ng-click="showGrantAccess($event, 'Update')" title="Edit {{abcTabs[selectedTabIdx]}} for Observed">
-					Edit
-				</span>
-				<span style="padding-left: 10px;" ng-class="selectedUserId == 0 ? 'linkSpanDisabled' : 'linkSpan'" ng-click="showGrantAccess($event, 'Remove')" title="Delete {{abcTabs[selectedTabIdx]}} for Observed">
-					Remove
-				</span>
-			</div>
-			
-			<div class="addValueDiv" ng-class="showGrantAccessFl ? 'showDiv' : 'hideDiv'" style="margin-bottom: 5px;">
-				
-				<span ng-class="{'addValueNormal': grantAccessStatus == 1, 'addValueSuccess': grantAccessStatus == 0, 'addValueError': grantAccessStatus == 2}">
-				{{grantAccessMessage}}
-				</span>
-			
-				<span style="display: inline-block; padding-top: 5px; padding-left: 5px; ">
-					<label style="font-size: .9em;">User Email
-						<input type="text" name="userEmail" id="userEmail" ng-model="userEmail" ng-disabled="grantAction != 'Grant'" style="width: 300px;"/>
-					</label>
-					
-					<label style="font-size: .9em; margin-left: 5px;">Access
-						<select name="role" id="role" ng-model="accessRole" style="height: 22px;" ng-disabled="grantAction == 'Remove'">
-							<option ng-repeat="option in roles" value="{{option.role}}">{{option.desc}}</option>
-						</select>
-					</label>
-					
-					<label style="font-size: .9em; margin-left: 5px;">Relationship
-						<select name="relationship" id="relationship" ng-model="accessRelationshipId" ng-disabled="grantAction == 'Remove'" style="height: 22px;">
-							<option ng-repeat="option in relationships" value="{{option.strId}}">{{option.value}}</option>
-						</select>
-					</label>
-					
-		    		<button ng-click="grantAccess()">{{grantAction}}</button>
-		    		<button ng-click="closeGrantAccess()">Close</button>
-	    		</span>
-	    		
-			</div>
-			
-			<table class="accessGrid">
-				<tr style="background-color: #f2f2f2;">
-					<td>&nbsp;</td>
-					<td>User Email</td>
-					<td>Access</td>
-					<td>Relationship</td>
-				</tr>
-				<tr ng-repeat="user in observers">
-					<td>
-						<span ng-hide="user.role == 'ADMIN'">
-							<input type="radio" name="accessUserRadio" ng-change="accessUserSelected()" ng-model="$parent.selectedUserId" value="{{user.userIdStr}}">
-						</span>
-					</td>
-				    <td style="width: 70px;">{{user.email}}</td>
-				    <td style="width: 70px;">{{user.role}}</td>
-				    <td style="width: 70px;">{{user.relationship}}</td>
-				</tr>
-			</table>
-			
-		</div>
-			
-		
-	 	
-	 	</div>  <!-- End Observed Settings div -->
-  
+	
+	
+    
+    
     
 </div>

@@ -1,89 +1,67 @@
-<style>
-.label { color: #000000; }
-.labelDisabled { color: #cccccc; }
-</style>
-<div style="padding: 10px;">
-    
-    
-    <p ng-class="{'normalMessage': status == 1, 'successMessage': status == 0, 'errorMessage': status == 2}">{{message}}</p>
-    
-    
-    <div ng-class="status == 0 ? 'hideElement' : 'showElement'">
-   
-    <table>
-    	<tr>
-    		<td>Username</td>
-    		<td>
-    			<input type="text" name="username" id="username" ng-model="user.username" style="width: 150px;"/>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Password</td>
-    		<td> 
-    			<input type="password" name="password" id="password" ng-model="user.password" style="width: 150px;"/>
-    		</td>
-    	</tr>
+<div class="scrollContent" style="text-align: center;padding: 10px; height: calc(100% - 70px); ">
+
+	<div class="container" style="width: 450px; text-align: left;">
     	
-    	<tr>
-    		<td>Email</td>
-    		<td> 
-    			<input type="email" name="email" id="email" ng-model="user.email" style="width: 300px;"/>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Start Page</td>
-    		<td> 
-	    		<select name="startPage" id="startPage" ng-model="user.startPage">
+    	<div class="addValueMessage" ng-class="{'messageSuccess': status == 0, 'messageError': status == 2}" style="margin-bottom: 5px;">
+			<span class="glyphicon" ng-class="{'glyphicon-plus': status == 1, 'glyphicon-ok': status == 0, 'glyphicon-remove': status == 2}">
+			</span> 
+			{{message}}
+		</div>
+    
+    	<div ng-class="status == 0 ? 'hideDiv' : 'showDiv'" style="width: 100%">
+    
+    	 <div class="form-group">
+	        <label for="username" class="control-label">Username</label>
+	        <input class="form-control" type="text" id="username" ng-model="user.username" placeholder="Username" required/>
+		 </div>
+		 
+		 <div class="form-group">
+            <label for="password" class="control-label">Password</label>
+            <input class="form-control" type="password" id="password" ng-model="user.password" placeholder="Password" required/>
+	     </div>
+	     
+	     <div class="form-group">
+	        <label for="email" class="control-label">Email</label>
+	        <input type="text" class="form-control" id="email" ng-model="user.email" placeholder="Email" required/>
+	     </div>
+	     
+	      <div class="form-group">
+	        <label for="startPage" class="control-label">Start Page</label>
+	        <select class="form-control" id="startPage" ng-model="user.startPage">
 	    			<option ng-repeat="option in startPages" value="{{option}}">{{option}}</option>
 	    		</select>
-    		</td>
-    	</tr>
-    	
-    	<tr>
-    		<td colspan="2" style="padding-top: 15px;">You can define one Observed here.&nbsp;&nbsp;You can also do this later, or add more if necessary.
-    		</td>
-    	</tr>
-    	
-    	<tr>
-    		<td colspan="2"> 
-    			<input type="checkbox" name="includeObserved" ng-model="includeObserved" ng-click="displayObservedSection()"> Check here to include an Observed
-    		</td>
-    	</tr>
-    	
-    	<tr>
-    		<td ng-class="{label: includeObserved, labelDisabled: ! includeObserved }">Observed</td>
-    		<td>
-    			<input type="text" name="observedname" id="observedname" ng-model="user.observedName" ng-disabled="! includeObserved" style="width: 150px;"/>
-    		</td>
-    	</tr>
-    	
-    	<tr>
-    		<!--  make a disabled class that grays this -->
-    		<td ng-class="{label: includeObserved, labelDisabled: ! includeObserved }">Relationship</td>
-    		<td> 
-	    		<select name="relationship" id="relationship" ng-model="user.relationship" ng-disabled="! includeObserved">
-					<option ng-repeat="option in relationships" value="{{option.strId}}">{{option.value}}</option>
-				</select>
-    		</td>
-    	</tr>
-    	
-    	
-    	<tr>
-    		<td colspan="2" style="padding-top: 15px;">
-    			<button ng-click="register()">Register</button>
-    			&nbsp;&nbsp;&nbsp;
-	    		<button ng-click="cancelRegister()">Cancel</button>
-    		</td>
-    	</tr>
-    </table>
+	     </div>
+	     	    	     
+	     <div class="form-group">
+	     	<input type="checkbox" name="includeObserved" ng-model="includeObserved" ng-click="displayObservedSection()">Check here to include an Observed.&nbsp;&nbsp;You can do this later.
+	     </div>
+	     
+	     <div class="form-group">
+	        <label for="observedname" class="control-label" ng-class="{ 'form-label-disabled': includeObserved == false}">Observed Name</label>
+	        <input type="text" class="form-control" id="observedname" ng-model="user.observedName" ng-disabled="! includeObserved"/>
+	     </div>
+	     
+	      <div class="form-group">
+	        <label for="observedname" class="control-label" ng-class="{ 'form-label-disabled': includeObserved == false}">Relationship</label>
+	        <select class="form-control" id="relationship" ng-model="user.relationship" ng-disabled="! includeObserved">
+				<option ng-repeat="option in relationships" value="{{option.strId}}">{{option.value}}</option>
+			</select>
+	     </div>
+	     
+	     <div>
+	     	<button class="btn btn-primary" ng-click="register()">Register</button>
+    		<button class="btn" style="margin-left: 10px;" ng-click="cancelRegister()">Cancel</button>
+	     </div>
+	       	
+    </div>
     
-     </div>
-     
-     <div ng-class="status == 0 ? 'showElement' : 'hideElement'">
+    
+     <div ng-class="status == 0 ? 'showDiv' : 'hideDiv'">
      
      	<a href="#" ng-click="showSignIn($event)">Proceed to Sign In</a> 
 	</div>
     
-	  
+    </div> <!--  End Container -->
     
 </div>
+    

@@ -1,75 +1,56 @@
 <div style="padding: 10px; text-align: center;">
 
+	<div class="container" style="width: 450px; text-align: left;">
+
+	<div class="addValueMessage" ng-class="{'messageSuccess': status == 0, 'messageError': status == 2}" ng-hide="showForgotSection == 1" style="margin-bottom: 5px;">
+			<span class="glyphicon" ng-class="{'glyphicon-user': status == 1, 'glyphicon-ok': status == 0, 'glyphicon-remove': status == 2}">
+			</span> 
+			{{message}}
+	</div>
     
-    <div ng-class="showForgotSection == 0 ? 'showElement' : 'hideElement'">	
+    <div ng-class="showForgotSection == 0 ? 'showDiv' : 'hideDiv'" style="width: 100%;">	
     
-    <p ng-class="{'normalMessage': status == 1, 'successMessage': status == 0, 'errorMessage': status == 2}">{{message}}</p>
+	    <div class="form-group">
+	        <label for="username" class="control-label">Username</label>
+	        <input class="form-control" type="text" id="username" ng-model="user.username" ng-keyup="enableSignIn($event)" placeholder="Username" required/>
+	    </div>
+	    
+        <div class="form-group">
+            <label for="password" class="control-label">Password</label>
+            <input class="form-control" type="password" id="password" ng-model="user.password" ng-keyup="enableSignIn($event)" placeholder="Password" required/>
+       	</div>
+        
+        <div>
+        	<button class="btn btn-primary" ng-click="signIn()" ng-disabled="signInDisabled">Sign In</button>
+        	
+        	<button class="btn" style="margin-left: 10px;" ng-click="cancelSignIn()">Cancel</button>
+        </div>
+        
+    	<div class="forgotSection">
+    		<a href="#" ng-click="showForgetSection($event, 'Username')">Forgot Username?</a>
+    	</div>
+    	<div class="forgotSection">
+			<a href="#" ng-click="showForgetSection($event, 'Password')">Forgot Password?</a>
+		</div>
+	 </div>
+         
+	  	<div ng-class="showForgotSection == 1 ? 'showDiv' : 'hideDiv'">	
+	    
+	    	<div style="margin-bottom: 10px;">{{forgotMessage}}</div>
+	    	
+	    	<div class="form-group">
+		        <label for="forgotEmail" class="control-label">Email</label>
+		        <input type="text" class="form-control" id="forgotEmail" ng-model="forgotEmail" ng-keyup="enableSend($event)"/>
+		     </div>
+		     
+		     <div>
+		      
+		       	<button class="btn btn-primary" ng-disabled="sendDisabled" ng-click="sendForgot()">Send</button>
+	    		<button class="btn" style="margin-left: 10px;" ng-click="cancelForgot()">Cancel</button>
+        	</div>
+	    	
+	  </div>
     
-    
-	<table style="text-align: left;">
-    	<tr>
-    		<td>Username</td>
-    		<td>
-    			<input type="text" name="username" id="username" ng-model="user.username" ng-keyup="enableSignIn($event)" style="width: 150px;"/>
-    		</td>
-    	</tr>
-    	<tr>
-    		<td>Password</td>
-    		<td> 
-    			<input type="password" name="password" id="password" ng-model="user.password" ng-keyup="enableSignIn($event)" style="width: 150px;"/>
-    		</td>
-    	</tr>
-    	   	
-    	    	
-    	<tr>
-    		<td>&nbsp;</td>
-    		<td>
-    		<button ng-click="signIn()" ng-disabled="signInDisabled">Sign In</button>
-    			 &nbsp;&nbsp;&nbsp;
-	    		<button ng-click="cancelSignIn()">Cancel</button>
-    		
-    			
-    		</td>
-    	</tr>
-    	
-    	<tr>
-    		<td>&nbsp;</td>
-    		<td class="forgotSection"> 
-    			<a href="#" ng-click="showForgetSection($event, 'Username')">Forgot Username?</a>
-    		</td>
-    	</tr>
-    	
-    	<tr>
-    		<td>&nbsp;</td>
-    		<td class="forgotSection"> 
-    			<a href="#" ng-click="showForgetSection($event, 'Password')">Forgot Password?</a> 
-    		</td>
-    	</tr>
-    	
-    </table>
-    </div>
-    
-    <div ng-class="showForgotSection == 1 ? 'showElement' : 'hideElement'">	
-    
-    	<p>{{forgotMessage}}</p>
-    	
-    	<table style="text-align: left;">
-    	<tr>
-    		<td>Email</td>
-    		<td>
-    			<input type="text" name="forgotEmail" id="forgotEmail" ng-model="forgotEmail" style="width: 300px;" ng-keyup="enableSend($event)"/>
-    		</td>
-    	</tr>
-    	    	    	
-    	<tr>
-    		<td>&nbsp;</td>
-    		<td>
-    			 <button ng-disabled="sendDisabled" ng-click="sendForgot()">Send</button>
-    			 &nbsp;&nbsp;&nbsp;
-	    		<button ng-click="cancelForgot()">Cancel</button>
-    		</td>
-    	</tr>
-    </table>
     </div>
     
 </div>
