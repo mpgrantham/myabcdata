@@ -18,17 +18,13 @@ function HeaderCtrl($scope, $location, $route, UserModel, ObservedModel)
 		$scope.selectedTab = args.selectedTab;
 	});
 	
-	$scope.showSignIn = function showSignIn($event)
+	$scope.showSignIn = function showSignIn()
     {
-		$event.preventDefault();
-		
 		$location.path('signin');
 	}
 	
-	$scope.showRegister = function showRegister($event)
+	$scope.showRegister = function showRegister()
     {
-		$event.preventDefault();
-		
 		$location.path('register');
 	}
 	
@@ -41,10 +37,8 @@ function HeaderCtrl($scope, $location, $route, UserModel, ObservedModel)
 		$location.path(navLocation);
 	}
 					
-	$scope.signOut = function signOut($event)
+	$scope.signOut = function signOut()
     {
-		$event.preventDefault();
-				
 		UserModel.signOut().then(function()
 	    {
 			$scope.user = UserModel.user;

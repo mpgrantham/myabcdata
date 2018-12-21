@@ -12,6 +12,7 @@ function ObservedModel($http)
     
     service.pageObserved = [];
     service.currentObserved = {};
+    service.locations = [];
     service.observedId = '0';
     
     service.entryAccess = false;
@@ -21,18 +22,22 @@ function ObservedModel($http)
     
     service.incident = {
     		id: 0,
-    		incidentDate: '',
+    		incidentDate: null,
+    		incidentDateTime: '',
+    		incidentTime: null,
     		incidentTimeHour: '',
     		incidentTimeMinute: '',
-    		incidentTimeAmPm: 'AM',
+    		incidentTimeAmPm: 'A',
     		durationMinutes: '00',
     		durationSeconds: '00',
+    		duration: '0000',
     		intensityId: '0',
     		locationId: '0',
     		description: ''
     };
     
     service.observers = [];
+       
         
     service.init = function(sessionKey)
     {
@@ -53,14 +58,18 @@ function ObservedModel($http)
     
     service.initIncident = function()
     {
+    	service.incident.id = 0;
     	service.incident.locationId = '0';
     	
     	service.incident.durationMinutes = '00';
         service.incident.durationSeconds = '00';
+        service.incident.duration = '0000';
         service.incident.intensityId = '0';
         service.incident.description = '';
         
         var dt = new Date();
+        
+        service.incident.incidentTime = new Date();
     	
     	var dd = ("0" + dt.getDate()).slice(-2);
     	var mm = ("0"+(dt.getMonth()+1)).slice(-2);
@@ -72,17 +81,24 @@ function ObservedModel($http)
     	if ( hr > 12 )
     	{
     		service.incident.incidentTimeHour = (hr - 12) + "";
-    		service.incident.incidentTimeAmPm = 'PM';
+    		service.incident.incidentTimeAmPm = 'P';
+    		hr = hr - 12;
     	}
     	else
     	{
     		service.incident.incidentTimeHour = hr + "";
-    		service.incident.incidentTimeAmPm = 'AM';
+    		service.incident.incidentTimeAmPm = 'A';
     	}
+    	
+    	hr = ("0" + hr).slice(-2);
     	
     	service.incident.incidentTimeMinute = min + "";
     	
-    	service.incident.incidentDate = mm + '/' + dd + '/' + yyyy;
+    	service.incident.incidentDate = new Date();
+    	
+    	//service.incident.incidentDate = mm + '/' + dd + '/' + yyyy;
+    	
+    	//service.incident.incidentTime = hr + ":" + min;
     }
     
     service.getUserObserved = function ()
@@ -280,22 +296,54 @@ function ObservedModel($http)
     	
     	var dateParts = selectedIncident.incidentDtStr.split(' ');
     	var timeParts = dateParts[1].split(':');
+    	var amPm = dateParts[2];
     	
+    	var hour = parseInt(timeParts[0]);
+    	var minute = parseInt(timeParts[1]);
+    	
+    	if ( amPm == 'AM' )
+    	{
+    		if ( hour == 12 )
+    		{
+    			hour = 0;
+    		}
+    	}
+    	else
+    	{
+    		if ( hour < 12 )
+    		{
+    			hour += 12;
+    		}
+    	}
+    	
+    	dateParts = dateParts[0].split("/");
+    	var incidentDate = new Date(parseInt(dateParts[2]), 
+    						parseInt(dateParts[0]) - 1, 
+    						parseInt(dateParts[1]), 
+    						hour, 
+    						minute, 
+    						0, 0);
+    	
+    	    	
     	var seconds = selectedIncident.duration;
     	var min = Math.floor(seconds / 60);
 		var sec = seconds % 60;
 		
 		service.incident.id = selectedIncident.id;
-    	service.incident.incidentDate = dateParts[0];
+		
+    	service.incident.incidentDate = incidentDate;
+    	service.incident.incidentTime = incidentDate;
+    	    	
     	service.incident.incidentTimeHour = timeParts[0];
     	service.incident.incidentTimeMinute = timeParts[1];
-		service.incident.incidentTimeAmPm = dateParts[2];
+		service.incident.incidentTimeAmPm = amPm == 'AM' ? 'A' : 'P';
     	service.incident.durationMinutes = ("0" + min).slice(-2);
     	service.incident.durationSeconds = ("0" + sec).slice(-2);
+    	service.incident.duration = ("0" + min).slice(-2) + "" + ("0" + sec).slice(-2);
 		service.incident.intensityId = selectedIncident.intensityIdStr;
 		service.incident.locationId = selectedIncident.locationIdStr;
 		service.incident.description = selectedIncident.description;
-		
+				
 		setFilterString(selectedIncident.antecedents, service.currentObserved.antecedents);
 		setFilterString(selectedIncident.behaviors, service.currentObserved.behaviors);
 		setFilterString(selectedIncident.consequences, service.currentObserved.consequences);
@@ -312,6 +360,7 @@ function ObservedModel($http)
 				if ( targetArr[j].valueId == id )
 				{
 					targetArr[j].selectedFlag = true;
+					
 					break;
 				}
 			}
@@ -336,145 +385,44 @@ function ObservedModel($http)
     	return str;
     }
     
-    var isValidDate = function(value)
-    {
-    	var parts = value.split("/");
-    	if ( parts.length != 3 )
-    	{
-    		return false;
-    	}
-    	
-    	var mm = parseInt(parts[0]);  
-    	var dd  = parseInt(parts[1]);  
-    	var yy = parseInt(parts[2]); 
-    	
-    	if ( isNaN(yy) || isNaN(mm) || isNaN(dd) )
-    	{
-    		return false;
-    	}
-    	
-    	if ( mm < 1 || mm > 12 )
-    	{
-    		return false;
-    	}
-    	
-    	var listOfDays = [0,31,28,31,30,31,30,31,31,30,31,30,31]; 
-    	
-    	if ( yy > 0 && yy < 50 )
-    	{
-    		yy+=2000;
-    	}
-    	else if ( yy > 49 && yy < 100 )
-    	{
-    		yy+=1900;
-    	}
-    	
-    	if ( mm == 2 ) 
-    	{
-    		if ( (!(yy % 4) && yy % 100) || !(yy % 400)) 
-    		{
-    			listofDays[2] = 29;
-    		}
-    	}
-    	
-    	if ( dd < 1 || dd > listOfDays[mm] )
-    	{
-    		return false;
-    	}
-    	    	
-    	return true;
-    }
-   
-
-    var isValidTimeUnit = function(timeUnit, minValue, maxValue)
-    {
-    	var unitValue = timeUnit.trim();
-    	
-    	if ( unitValue == "" )
-    	{
-    		return false;
-    	}
-    	
-    	var value = parseInt(unitValue, 10);
-    	
-    	if ( isNaN(value) || unitValue.indexOf(".") > -1 || value < minValue || value > maxValue )
-    	{
-    		return false;
-    	}
-    	
-    	return true;
-    }
-    
     service.validateIncident = function()
     {
     	var dt = new Date();
     	
     	var errors = [];
-    	service.incident.incidentDate = service.incident.incidentDate.trim();
     	
-    	if ( service.incident.incidentDate == '' )
-    	{
-    		errors.push("Incident Date required");
-    	}
-    	else if ( ! isValidDate(service.incident.incidentDate) )
-    	{
-    		errors.push("Invalid Incident Date");
-    	}
+    	var year = 0;
+    	var month = 0;
+    	var day = 0;
+    	var hour = 0;
+    	var minute = 0;
+    	var amPm = 'P';
     	
-    	service.incident.incidentTimeHour = service.incident.incidentTimeHour.trim();
-    	service.incident.incidentTimeMinute = service.incident.incidentTimeMinute.trim();
-    	
-    	if ( service.incident.incidentTimeHour == '' )
+    	if ( service.incident.incidentDate )
     	{
-    		errors.push("Incident Time hour required");
+    		year = service.incident.incidentDate.getFullYear();
+    		month = service.incident.incidentDate.getMonth();
+    		day = service.incident.incidentDate.getDate();
     	}
-    	else if ( ! isValidTimeUnit(service.incident.incidentTimeHour, 1, 12) )
+    	else
     	{
-    		errors.push("Invalid Incident Time hour");
+    		errors.push("Invalid/Missing Incident Date");
     	}
-    	
-    	if ( service.incident.incidentTimeMinute == '' )
+    		    	
+    	if ( service.incident.incidentTime )
     	{
-    		errors.push("Incident Time minute required");
+    		var timeParts = service.incident.incidentTime.toTimeString().split(":");
+    		hour = parseInt(timeParts[0]);
+    		minute = parseInt(timeParts[1]);
     	}
-    	else if ( ! isValidTimeUnit(service.incident.incidentTimeMinute, 0, 59) )
+    	else
     	{
-    		errors.push("Invalid Incident Time minute");
+    		errors.push("Invalid/Missing Incident Time");
     	}
-    	
+    	    	
     	// Valid date and time, now make sure it is not in the future
     	if ( errors.length == 0 )
     	{
-    		var parts = service.incident.incidentDate.split("/");
-        	
-        	var month = parseInt(parts[0]) - 1;  
-        	var day  = parseInt(parts[1]);  
-        	var year = parseInt(parts[2]); 
-        	
-        	if ( year > 0 && year < 50 )
-        	{
-        		year += 2000;
-        	}
-        	else if ( year > 49 && year < 100 )
-        	{
-        		yy += 1900;
-        	}
-        	
-        	var hour = parseInt(service.incident.incidentTimeHour);
-        	var minute = parseInt(service.incident.incidentTimeMinute);
-        	
-        	if ( service.incident.incidentTimeAmPm == 'PM' )
-        	{
-        		if ( hour < 12 )
-        		{
-        			hour += 12;
-        		}
-        	}
-        	else if ( hour == 12 )
-        	{
-        		hour = 0;
-        	}
-        	
     		var incidentDate = new Date(year, month, day, hour, minute, 0, 0);
     		
     		var now = new Date();
@@ -483,27 +431,7 @@ function ObservedModel($http)
     			errors.push("Incident Date/Time in the future");
     		}
     	}
-    	
-    	service.incident.durationMinutes = service.incident.durationMinutes.trim();
-    	if ( service.incident.durationMinutes == '' )
-    	{
-    		service.incident.durationMinutes = '00';
-    	}
-    	if ( ! isValidTimeUnit(service.incident.durationMinutes, 0, 999) )
-    	{
-    		errors.push("Invalid Duration minutes");
-    	}
-    	
-    	service.incident.durationSeconds = service.incident.durationSeconds.trim();
-    	if ( service.incident.durationSeconds == '' )
-    	{
-    		service.incident.durationSeconds = '00';
-    	}
-    	if ( ! isValidTimeUnit(service.incident.durationSeconds, 0, 999) )
-    	{
-    		errors.push("Invalid Duration seconds");
-    	}
-    	
+    	    	
     	if ( getFilterString(service.currentObserved.antecedents) == '' )
     	{
     		errors.push("At least one Antecedent required");
@@ -519,6 +447,39 @@ function ObservedModel($http)
     		errors.push("At least one Consequence required");
     	}
     	
+    	if ( errors.length == 0 )
+    	{
+    		service.incident.incidentDateTime = (month + 1) + "/" + day + "/" + year;
+    		
+    		if ( hour > 12 )
+        	{
+    			service.incident.incidentTimeAmPm = 'P'
+        		hour = hour - 12;
+        	}
+        	else 
+        	{
+        		service.incident.incidentTimeAmPm = 'A';
+        		if ( hour == 0 )
+        		{
+        			hour = 12;
+        		}
+        	}
+    		
+    		service.incident.incidentTimeHour = ("0" + hour).slice(-2);
+    		service.incident.incidentTimeMinute = ("0" + minute).slice(-2);
+        	        	
+    		if ( service.incident.duration.trim() != '' )
+        	{
+        		service.incident.durationMinutes = service.incident.duration.substring(0,2);
+        		service.incident.durationSeconds = service.incident.duration.substring(2);
+        	}
+        	else
+        	{
+        		service.incident.durationMinutes = '00';
+        		service.incident.durationSeconds = '00';
+        	}
+    	}
+    	
     	return errors;
     }
     
@@ -526,10 +487,10 @@ function ObservedModel($http)
     {
     	return $http.get('saveIncident?id=' + service.incident.id
     			+ '&obsId=' + service.observedId
-    			+ '&dt=' + service.incident.incidentDate
+    			+ '&dt=' + service.incident.incidentDateTime
     			+ '&hr=' + service.incident.incidentTimeHour
     			+ '&min=' + service.incident.incidentTimeMinute
-    			+ '&amPm=' + service.incident.incidentTimeAmPm
+    			+ '&amPm=' + (service.incident.incidentTimeAmPm == 'A' ? 'AM' : 'PM')
     			+ '&durMin=' + service.incident.durationMinutes
     			+ '&durSec=' + service.incident.durationSeconds
     			+ '&intensity=' + service.incident.intensityId

@@ -1,12 +1,6 @@
 <div id="header">
     <div class="titleText">
 			my
-			<!-- 
-			<span class="colorOrange">A</span>
-			<span class="colorRed">B</span>
-			<span class="colorGreen">C</span>
-			
-			 -->
 	</div>
 	
 	<div id="titleImage"></div>
@@ -17,46 +11,34 @@
 		
 	<div id="links">
 		
-		<div id="signInLinks" ng-class="user.signInStatus == 0 ? 'hideElement' : 'showElement'">
-			<span id="signInSpan"> 
-				<a href="#" ng-click="showSignIn($event)">Sign In</a> 
-			</span> 
+		<div id="signInLinks" ng-class="user.signInStatus == 0 ? 'hideDiv' : 'showDiv'">
+		
+			<button class="btn btn-link" style="color: white;" ng-click="showSignIn()">Sign In</button>
 			
-			<span id="registerSpan" style="padding-left: 15px; padding-right: 10px;"> 
-				<a href="#" ng-click="showRegister($event)">Register</a> 
-			</span> 
+			<button class="btn btn-link" style="color: white; margin-right: 10px;" ng-click="showRegister()">Register</button>
+			
 		</div>	
 		
-		<div id="signOutLinks" ng-class="user.signInStatus == 0 ? 'showElement' : 'hideElement'">
-			<span>
-				<a href="#" ng-click="signOut($event)" style="padding-right: 10px;">Sign Out</a> 
-			</span>
+		<div id="signOutLinks" ng-class="user.signInStatus == 0 ? 'showDiv' : 'hideDiv'">
+		
+			<button class="btn btn-link" style="color: white;" ng-click="signOut()">Sign Out</button>
+			
 		</div>
 		
 	</div>
          
 </div>
 
-
-<div id="tabBar" ng-class="user.signInStatus == 0 ? 'showElement' : 'hideElement'">
-
-	<span class="home" title="Home Page" ng-click="navigate($event, 'home')" id="homeTab" ng-class="{ 'selectedTab': selectedTab == 'home'}"> 
-		Home 
-	</span>
-	
-	<span class="log" title="Events Log Page" ng-click="navigate($event, 'log')" id="logTab" ng-class="{ 'selectedTab': selectedTab == 'log'}"> 
-		Log 
-	</span>
-	
-	<span class="add" ng-click="navigate($event, 'entry')" title="Add an Event Entry" id="addTab" ng-class="{ 'selectedTab': selectedTab == 'entry'}">
-		Entry
-	</span>
-			
-	<span class="settings" ng-click="navigate($event, 'settings')" title="Update Settings" id="settingsTab" ng-class="{ 'selectedTab': selectedTab == 'settings'}">
-		Settings
-	</span>
-
+<div ng-class="user.signInStatus == 0 ? 'showDiv' : 'hideDiv'" style="width: 100%; margin-top: 5px;">
+	<ul class="nav nav-tabs">
+	    <li ng-class="{ 'active': selectedTab == 'home'}"><a href="#" ng-click="navigate($event, 'home')"><span class="glyphicon glyphicon-home"></span>  Home</a></li>
+	    <li ng-class="{ 'active': selectedTab == 'log'}"><a href="#" ng-click="navigate($event, 'log')"><span class="glyphicon glyphicon-list"></span> Log</a></li>
+	    <li ng-class="{ 'active': selectedTab == 'entry'}"><a href="#" ng-click="navigate($event, 'entry')"><span class="glyphicon glyphicon-plus"></span> Entry</a></li>
+	    <li ng-class="{ 'active': selectedTab == 'settings'}"><a href="#" ng-click="navigate($event, 'settings')"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+	</ul>
 </div>
+
+
 
 
 
