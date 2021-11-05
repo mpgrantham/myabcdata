@@ -30,12 +30,13 @@ public class UserDaoJdbc extends BaseDao implements UserDao {
 	private static final String PROC_GET_USER_BY_USER_NM = "{call get_user_by_user_nm(?)}";
 	private static final String PROC_GET_USER_BY_ID = "{call get_user_by_id(?)}";
 	private static final String PROC_GET_USER_BY_EMAIL = "{call get_user_by_email(?)}";
+	private static final String PROC_GET_USER_BY_SIGNED_IN_KEY = "{call get_user_by_signed_in_key(?)}";
 
 	private static final String PROC_INSERT_USER = "{call insert_user(?,?,?,?,?,?,?)}";
 
 	private static final String PROC_DELETE_USER = "{call delete_user(?)}";
 
-	private static final String PROC_UPDATE_USER = "{call update_user(?,?,?, ?)}";
+	private static final String PROC_UPDATE_USER = "{call update_user(?,?,?,?,?)}";
 	private static final String PROC_UPDATE_USER_PASSWORD = "{call update_user_password(?,?,?)}";
 	private static final String PROC_UPDATE_USER_USER_NM = "{call update_user_user_nm(?,?)}";
 
@@ -165,6 +166,21 @@ public class UserDaoJdbc extends BaseDao implements UserDao {
 		return user;
 	}
 
+	public User getUserBySignedInKey(String signedInKey) throws SQLException {
+		User user = null;
+
+		try (Connection conn = getConnection();
+				CallableStatement stmt = conn.prepareCall(PROC_GET_USER_BY_SIGNED_IN_KEY)) {
+			stmt.setString(1, signedInKey);
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				user = mapUser(rs);
+			}
+		}
+
+		return user;
+	}
+
 	private User mapUser(ResultSet rs) throws SQLException {
 		User user = null;
 
@@ -222,6 +238,7 @@ public class UserDaoJdbc extends BaseDao implements UserDao {
 			stmt.setString(2, user.getEmail());
 			stmt.setString(3, user.getStartPage());
 			stmt.setString(4, user.getStatus());
+			stmt.setString(5, user.getStaySignedInKey());
 			stmt.execute();
 		}
 

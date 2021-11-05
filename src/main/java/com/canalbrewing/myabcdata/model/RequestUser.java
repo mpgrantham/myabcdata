@@ -17,6 +17,8 @@ public class RequestUser {
     private String key;
     private String userId;
 
+    private boolean staySignedIn;
+
     public String getObservedId() {
         return observedId;
     }
@@ -103,6 +105,14 @@ public class RequestUser {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public boolean isStaySignedIn() {
+        return staySignedIn;
+    }
+
+    public void setStaySignedIn(boolean staySignedIn) {
+        this.staySignedIn = staySignedIn;
     }
 
     public User convertToUser() {

@@ -21,6 +21,8 @@ public class User {
 
     private String sessionKey;
 
+    private String staySignedInKey;
+
     private List<Observed> observed = new ArrayList<>();
 
     public int getId() {
@@ -93,6 +95,14 @@ public class User {
 
     public void setSessionKey(String sessionKey) {
         this.sessionKey = sessionKey;
+    }
+
+    public String getStaySignedInKey() {
+        return staySignedInKey;
+    }
+
+    public void setStaySignedInKey(String staySignedInKey) {
+        this.staySignedInKey = staySignedInKey;
     }
 
     @Override

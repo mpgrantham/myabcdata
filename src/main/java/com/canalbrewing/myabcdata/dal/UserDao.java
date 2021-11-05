@@ -22,6 +22,8 @@ public interface UserDao {
 
 	User getUserById(int userId) throws SQLException;
 
+	User getUserBySignedInKey(String signedInKey) throws SQLException;
+
 	UserSession getUserSession(String sessionToken) throws SQLException;
 
 	void insertUserSession(User user) throws SQLException;

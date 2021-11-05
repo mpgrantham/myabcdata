@@ -69,7 +69,8 @@ public class UserController {
 
 	@PostMapping("/signIn")
 	public ResponseEntity<User> signIn(@RequestBody RequestUser requestUser) throws SQLException {
-		User user = userBusiness.signInUser(requestUser.getUsername(), requestUser.getPassword());
+		User user = userBusiness.signInUser(requestUser.getUsername(), requestUser.getPassword(),
+				requestUser.isStaySignedIn());
 
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
@@ -80,6 +81,13 @@ public class UserController {
 		userBusiness.signOutUser(sessionToken);
 
 		return new ResponseEntity<>(new StatusMessage(StatusMessage.SUCCESS, "User Signed Out"), HttpStatus.OK);
+	}
+
+	@PostMapping("/keySignIn")
+	public ResponseEntity<User> signInWithKey(@RequestBody RequestUser requestUser) throws SQLException {
+		User user = userBusiness.signInUser(requestUser.getKey());
+
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	@GetMapping("/sendUsernamePassword")
@@ -250,17 +258,16 @@ public class UserController {
 	@ExceptionHandler(MyAbcDataException.class)
 	public ResponseEntity<StatusMessage> handleMyAbcDataException(MyAbcDataException ex) {
 		switch (ex.getExceptionCode()) {
-			case MyAbcDataException.INVALID_LOGIN:
-				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
-						HttpStatus.UNAUTHORIZED);
-			case MyAbcDataException.NOT_FOUND:
-				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
-						HttpStatus.NOT_FOUND);
-			case MyAbcDataException.DUPLICATE:
-				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()), HttpStatus.FOUND);
-			default:
-				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
-						HttpStatus.INTERNAL_SERVER_ERROR);
+		case MyAbcDataException.INVALID_LOGIN:
+			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
+					HttpStatus.UNAUTHORIZED);
+		case MyAbcDataException.NOT_FOUND:
+			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()), HttpStatus.NOT_FOUND);
+		case MyAbcDataException.DUPLICATE:
+			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()), HttpStatus.FOUND);
+		default:
+			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

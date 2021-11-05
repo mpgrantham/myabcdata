@@ -18,9 +18,11 @@ public interface UserBusiness {
 
 	UserSession getUserSession(String sessionToken) throws SQLException;
 
-	User signInUser(String username, String password) throws SQLException;
+	User signInUser(String username, String password, boolean staySignedIn) throws SQLException;
 
 	void signOutUser(String sessionToken) throws SQLException;
+
+	User signInUser(String signedInKey) throws SQLException;
 
 	User register(User user) throws SQLException;
 

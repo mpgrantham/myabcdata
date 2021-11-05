@@ -82,7 +82,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return session;
 	}
 
-	public User signInUser(String username, String password) throws SQLException {
+	public User signInUser(String username, String password, boolean staySignedIn) throws SQLException {
 		User user = userDao.getUserByUsername(username);
 
 		if (user == null || User.STATUS_PENDING.equals(user.getStatus())) {
@@ -108,6 +108,11 @@ public class UserBusinessImpl implements UserBusiness {
 
 		userDao.insertUserSession(user);
 
+		if (staySignedIn) {
+			user.setStaySignedInKey(UUID.randomUUID().toString().replace("-", ""));
+			userDao.updateUser(user);
+		}
+
 		return user;
 	}
 
@@ -121,6 +126,20 @@ public class UserBusinessImpl implements UserBusiness {
 		session.setSessionActiveFl(0);
 
 		userDao.updateUserSession(session);
+	}
+
+	public User signInUser(String signedInKey) throws SQLException {
+		User user = userDao.getUserBySignedInKey(signedInKey);
+
+		if (user == null) {
+			throw new MyAbcDataException(MyAbcDataException.INVALID_LOGIN, MSG_INVALID_LOGIN);
+		}
+
+		user.setSessionKey(UUID.randomUUID().toString().replace("-", ""));
+
+		userDao.insertUserSession(user);
+
+		return user;
 	}
 
 	public User register(User user) throws SQLException {
