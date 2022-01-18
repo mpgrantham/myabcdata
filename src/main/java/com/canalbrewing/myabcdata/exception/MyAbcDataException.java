@@ -1,6 +1,6 @@
 package com.canalbrewing.myabcdata.exception;
 
-public class MyAbcDataException extends RuntimeException {
+public class MyAbcDataException extends Exception {
 
 	private static final long serialVersionUID = 280591020970526872L;
 

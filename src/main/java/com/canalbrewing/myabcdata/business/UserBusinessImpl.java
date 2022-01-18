@@ -69,7 +69,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return relationships;
 	}
 
-	public UserSession getUserSession(String sessionToken) throws SQLException {
+	public UserSession getUserSession(String sessionToken) throws SQLException, MyAbcDataException {
 		UserSession session = userDao.getUserSession(sessionToken);
 		if (session == null) {
 			throw new MyAbcDataException(MyAbcDataException.INVALID_SESSION, "Invalid Session. Session Not Found.");
@@ -82,7 +82,8 @@ public class UserBusinessImpl implements UserBusiness {
 		return session;
 	}
 
-	public User signInUser(String username, String password, boolean staySignedIn) throws SQLException {
+	public User signInUser(String username, String password, boolean staySignedIn)
+			throws SQLException, MyAbcDataException {
 		User user = userDao.getUserByUsername(username);
 
 		if (user == null || User.STATUS_PENDING.equals(user.getStatus())) {
@@ -116,7 +117,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return user;
 	}
 
-	public void signOutUser(String sessionToken) throws SQLException {
+	public void signOutUser(String sessionToken) throws SQLException, MyAbcDataException {
 
 		UserSession session = userDao.getUserSession(sessionToken);
 		if (session == null) {
@@ -128,7 +129,7 @@ public class UserBusinessImpl implements UserBusiness {
 		userDao.updateUserSession(session);
 	}
 
-	public User signInUser(String signedInKey) throws SQLException {
+	public User signInUser(String signedInKey) throws SQLException, MyAbcDataException {
 		User user = userDao.getUserBySignedInKey(signedInKey);
 
 		if (user == null) {
@@ -142,7 +143,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return user;
 	}
 
-	public User register(User user) throws SQLException {
+	public User register(User user) throws SQLException, MyAbcDataException {
 
 		if (userDao.getUserByUsername(user.getUserNm()) != null) {
 			throw new MyAbcDataException(MyAbcDataException.DUPLICATE, MSG_USERNAME_EXISTS);
@@ -185,7 +186,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return insertUser;
 	}
 
-	public User confirmRegister(String verificationKey) throws SQLException {
+	public User confirmRegister(String verificationKey) throws SQLException, MyAbcDataException {
 
 		Verification verification = getVerification(verificationKey);
 
@@ -203,7 +204,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return user;
 	}
 
-	public User saveUser(User user) throws SQLException {
+	public User saveUser(User user) throws SQLException, MyAbcDataException {
 
 		User u = userDao.getUserByUsername(user.getUserNm());
 		if (u != null && u.getId() != user.getId()) {
@@ -234,7 +235,7 @@ public class UserBusinessImpl implements UserBusiness {
 
 	}
 
-	public User updateUser(User user) throws SQLException {
+	public User updateUser(User user) throws SQLException, MyAbcDataException {
 
 		User u = userDao.getUserByEmail(user.getEmail());
 		if (u != null && u.getId() != user.getId()) {
@@ -244,7 +245,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return userDao.updateUser(user);
 	}
 
-	public User updateUsername(int userId, String userName) throws SQLException {
+	public User updateUsername(int userId, String userName) throws SQLException, MyAbcDataException {
 
 		User u = userDao.getUserByUsername(userName);
 		if (u != null && u.getId() != userId) {
@@ -258,7 +259,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return userDao.updateUsername(user);
 	}
 
-	public User resetPassword(String resetKey, String password) throws SQLException {
+	public User resetPassword(String resetKey, String password) throws SQLException, MyAbcDataException {
 
 		User user = getUserByResetKey(resetKey);
 
@@ -281,7 +282,8 @@ public class UserBusinessImpl implements UserBusiness {
 		return user;
 	}
 
-	public User updatePassword(int userId, String currentPassword, String password) throws SQLException {
+	public User updatePassword(int userId, String currentPassword, String password)
+			throws SQLException, MyAbcDataException {
 
 		User existingUser = userDao.getUserById(userId);
 
@@ -311,7 +313,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return userDao.updatePassword(user);
 	}
 
-	public User getUserByResetKey(String resetKey) throws SQLException {
+	public User getUserByResetKey(String resetKey) throws SQLException, MyAbcDataException {
 		Verification verification = userDao.getVerification(resetKey);
 
 		if (verification == null) {
@@ -321,7 +323,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return userDao.getUserById(verification.getVerifiedUserId());
 	}
 
-	public void deleteUser(int userId) throws SQLException {
+	public void deleteUser(int userId) throws SQLException, MyAbcDataException {
 
 		List<Observed> observedList = observedDao.getObservedByUser(userId);
 		Optional<Observed> found = observedList.stream().filter(o -> o.getRole().equals(Observed.ROLE_ADMIN)).findAny();
@@ -332,7 +334,8 @@ public class UserBusinessImpl implements UserBusiness {
 		userDao.deleteUser(userId);
 	}
 
-	public Observed addObserved(int userId, String observedNm, String relationshipId) throws SQLException {
+	public Observed addObserved(int userId, String observedNm, String relationshipId)
+			throws SQLException, MyAbcDataException {
 
 		List<Observed> observedList = observedDao.getObservedByUser(userId);
 		Optional<Observed> found = observedList.stream().filter(o -> o.getObservedNm().equals(observedNm)).findAny();
@@ -367,7 +370,8 @@ public class UserBusinessImpl implements UserBusiness {
 		return observedDao.updateObserved(observed);
 	}
 
-	public Observed grantAccess(String obsId, String email, String role, String relationshipId) throws SQLException {
+	public Observed grantAccess(String obsId, String email, String role, String relationshipId)
+			throws SQLException, MyAbcDataException {
 		User user = userDao.getUserByEmail(email);
 		if (user == null || User.STATUS_PENDING.equals(user.getStatus())) {
 			throw new MyAbcDataException(MyAbcDataException.NOT_FOUND, MSG_NO_USER_FOR_EMAIL);
@@ -443,7 +447,8 @@ public class UserBusinessImpl implements UserBusiness {
 		return observedDao.deleteObservers(observed);
 	}
 
-	public String requestReassign(String sessionToken, String observedId, String email) throws SQLException {
+	public String requestReassign(String sessionToken, String observedId, String email)
+			throws SQLException, MyAbcDataException {
 
 		UserSession session = getUserSession(sessionToken);
 
@@ -482,7 +487,8 @@ public class UserBusinessImpl implements UserBusiness {
 		return "Reassign request email sent.  The requested user must accept by clicking verification link.";
 	}
 
-	public Observed reassignObserved(String verificationKey, String relationshipId) throws SQLException {
+	public Observed reassignObserved(String verificationKey, String relationshipId)
+			throws SQLException, MyAbcDataException {
 
 		Verification verification = getVerification(verificationKey);
 
@@ -525,7 +531,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return userDao.getVerification(verificationKey);
 	}
 
-	public Verification getReassignVerification(String verificationKey) throws SQLException {
+	public Verification getReassignVerification(String verificationKey) throws SQLException, MyAbcDataException {
 		Verification verification = userDao.getVerification(verificationKey);
 		if (verification == null) {
 			throw new MyAbcDataException(MyAbcDataException.NOT_FOUND, "Reassign Link not found");
@@ -547,7 +553,7 @@ public class UserBusinessImpl implements UserBusiness {
 		}
 	}
 
-	public String sendUsernameOrPassword(String email, String forgottenItem) {
+	public String sendUsernameOrPassword(String email, String forgottenItem) throws MyAbcDataException {
 		String message = "";
 
 		try {
@@ -598,7 +604,7 @@ public class UserBusinessImpl implements UserBusiness {
 		return calendar.getTime();
 	}
 
-	private void sendEmail(String subject, StringBuilder body, String toEmail) {
+	private void sendEmail(String subject, StringBuilder body, String toEmail) throws MyAbcDataException {
 		Properties props = System.getProperties();
 		// -- Attaching to default Session, or we could start a new one --
 

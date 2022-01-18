@@ -1,29 +1,37 @@
 package com.canalbrewing.myabcdata.model;
 
+import com.canalbrewing.myabcdata.resultsetmapper.annotation.DbColumn;
+
 public class Abc {
     public static final String VALUE_ID = "value_id";
-	public static final String TYPE_CD = "type_cd";
-	public static final String TYPE_VALUE = "type_value";
-	
-	public static final String ANTECEDENT = "A";
-	public static final String BEHAVIOR = "B";
-	public static final String CONSEQUENCE = "C";
-	public static final String LOCATION = "L";
-	
-	private int valueId;
-	private String typeCd;
-	private String typeValue;
-	private int selected;
-	private Boolean selectedFlag = false;
+    public static final String TYPE_CD = "type_cd";
+    public static final String TYPE_VALUE = "type_value";
+
+    public static final String ANTECEDENT = "A";
+    public static final String BEHAVIOR = "B";
+    public static final String CONSEQUENCE = "C";
+    public static final String LOCATION = "L";
+
+    @DbColumn(name = "value_id")
+    private int valueId;
+
+    @DbColumn(name = "type_cd")
+    private String typeCd;
+
+    @DbColumn(name = "type_value")
+    private String typeValue;
+
+    private int selected;
+    private Boolean selectedFlag = false;
     private String activeFl;
 
     public Abc() {
-		
-	}
-	
-	public Abc(int valueId, String typeValue) {
-		this.valueId = valueId;
-		this.typeValue = typeValue;
+
+    }
+
+    public Abc(int valueId, String typeValue) {
+        this.valueId = valueId;
+        this.typeValue = typeValue;
     }
 
     public int getValueId() {
@@ -79,5 +87,5 @@ public class Abc {
         return "Abc [activeFl=" + activeFl + ", selected=" + selected + ", selectedFlag=" + selectedFlag + ", typeCd="
                 + typeCd + ", typeValue=" + typeValue + ", valueId=" + valueId + "]";
     }
-  
+
 }

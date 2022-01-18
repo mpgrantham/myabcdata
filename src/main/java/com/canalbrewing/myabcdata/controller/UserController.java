@@ -41,7 +41,8 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<StatusMessage> register(@RequestBody RequestUser requestUser) throws SQLException {
+	public ResponseEntity<StatusMessage> register(@RequestBody RequestUser requestUser)
+			throws SQLException, MyAbcDataException {
 		User user = requestUser.convertToUser();
 
 		userBusiness.register(user);
@@ -59,7 +60,8 @@ public class UserController {
 	}
 
 	@PutMapping("/register")
-	public ResponseEntity<StatusMessage> confirmRegister(@RequestBody RequestUser requestUser) throws SQLException {
+	public ResponseEntity<StatusMessage> confirmRegister(@RequestBody RequestUser requestUser)
+			throws SQLException, MyAbcDataException {
 
 		userBusiness.confirmRegister(requestUser.getKey());
 
@@ -68,7 +70,7 @@ public class UserController {
 	}
 
 	@PostMapping("/signIn")
-	public ResponseEntity<User> signIn(@RequestBody RequestUser requestUser) throws SQLException {
+	public ResponseEntity<User> signIn(@RequestBody RequestUser requestUser) throws SQLException, MyAbcDataException {
 		User user = userBusiness.signInUser(requestUser.getUsername(), requestUser.getPassword(),
 				requestUser.isStaySignedIn());
 
@@ -77,14 +79,15 @@ public class UserController {
 
 	@PutMapping(value = "/signOut")
 	public ResponseEntity<StatusMessage> signOut(@RequestHeader("Authorization") String sessionToken)
-			throws SQLException {
+			throws SQLException, MyAbcDataException {
 		userBusiness.signOutUser(sessionToken);
 
 		return new ResponseEntity<>(new StatusMessage(StatusMessage.SUCCESS, "User Signed Out"), HttpStatus.OK);
 	}
 
 	@PostMapping("/keySignIn")
-	public ResponseEntity<User> signInWithKey(@RequestBody RequestUser requestUser) throws SQLException {
+	public ResponseEntity<User> signInWithKey(@RequestBody RequestUser requestUser)
+			throws SQLException, MyAbcDataException {
 		User user = userBusiness.signInUser(requestUser.getKey());
 
 		return new ResponseEntity<>(user, HttpStatus.OK);
@@ -92,19 +95,20 @@ public class UserController {
 
 	@GetMapping("/sendUsernamePassword")
 	public Object sendUsernamePassword(@RequestParam(value = "email", required = true) String email,
-			@RequestParam(value = "forgotType", required = true) String forgotType) {
+			@RequestParam(value = "forgotType", required = true) String forgotType) throws MyAbcDataException {
 		return userBusiness.sendUsernameOrPassword(email, forgotType.toUpperCase());
 	}
 
 	@GetMapping("/checkResetKey")
 	public ResponseEntity<StatusMessage> checkResetKey(@RequestParam(value = "key", required = true) String key)
-			throws SQLException {
+			throws SQLException, MyAbcDataException {
 		userBusiness.getUserByResetKey(key);
 		return new ResponseEntity<>(new StatusMessage(StatusMessage.SUCCESS, "Provide new Password"), HttpStatus.OK);
 	}
 
 	@PostMapping("/saveResetPassword")
-	public ResponseEntity<StatusMessage> saveResetPassword(@RequestBody RequestUser requestUser) throws SQLException {
+	public ResponseEntity<StatusMessage> saveResetPassword(@RequestBody RequestUser requestUser)
+			throws SQLException, MyAbcDataException {
 
 		userBusiness.resetPassword(requestUser.getKey(), requestUser.getPassword());
 
@@ -114,7 +118,7 @@ public class UserController {
 
 	@PutMapping(value = "/settings")
 	public ResponseEntity<StatusMessage> updateSettings(@RequestHeader("Authorization") String sessionToken,
-			@RequestBody RequestUser requestUser) throws SQLException {
+			@RequestBody RequestUser requestUser) throws SQLException, MyAbcDataException {
 
 		UserSession userSession = userBusiness.getUserSession(sessionToken);
 
@@ -131,7 +135,7 @@ public class UserController {
 
 	@PutMapping(value = "/password")
 	public ResponseEntity<StatusMessage> updatePassword(@RequestHeader("Authorization") String sessionToken,
-			@RequestBody RequestUser requestUser) throws SQLException {
+			@RequestBody RequestUser requestUser) throws SQLException, MyAbcDataException {
 
 		UserSession userSession = userBusiness.getUserSession(sessionToken);
 
@@ -143,7 +147,7 @@ public class UserController {
 
 	@PutMapping(value = "/username")
 	public ResponseEntity<StatusMessage> updateUsername(@RequestHeader("Authorization") String sessionToken,
-			@RequestBody RequestUser requestUser) throws SQLException {
+			@RequestBody RequestUser requestUser) throws SQLException, MyAbcDataException {
 
 		UserSession userSession = userBusiness.getUserSession(sessionToken);
 
@@ -154,7 +158,7 @@ public class UserController {
 
 	@PutMapping("/observed")
 	public ResponseEntity<Observed> updateObserved(@RequestHeader("Authorization") String sessionToken,
-			@RequestBody RequestUser requestUser) throws SQLException {
+			@RequestBody RequestUser requestUser) throws SQLException, MyAbcDataException {
 
 		UserSession userSession = userBusiness.getUserSession(sessionToken);
 
@@ -166,7 +170,7 @@ public class UserController {
 
 	@PostMapping("/observed")
 	public ResponseEntity<Observed> addObserved(@RequestHeader("Authorization") String sessionToken,
-			@RequestBody RequestUser requestUser) throws SQLException {
+			@RequestBody RequestUser requestUser) throws SQLException, MyAbcDataException {
 
 		UserSession userSession = userBusiness.getUserSession(sessionToken);
 
@@ -178,7 +182,7 @@ public class UserController {
 
 	@GetMapping("/observers/{observedId}")
 	public ResponseEntity<List<Observed>> getObservedUsers(@PathVariable String observedId,
-			@RequestHeader("Authorization") String sessionToken) throws SQLException {
+			@RequestHeader("Authorization") String sessionToken) throws SQLException, MyAbcDataException {
 		userBusiness.getUserSession(sessionToken);
 
 		return new ResponseEntity<>(userBusiness.getUsersByObserved(observedId), HttpStatus.OK);
@@ -186,7 +190,8 @@ public class UserController {
 
 	@PostMapping("/access/{observedId}")
 	public ResponseEntity<StatusMessage> grantAccess(@RequestHeader("Authorization") String sessionToken,
-			@PathVariable String observedId, @RequestBody RequestUser requestUser) throws SQLException {
+			@PathVariable String observedId, @RequestBody RequestUser requestUser)
+			throws SQLException, MyAbcDataException {
 		userBusiness.getUserSession(sessionToken);
 
 		userBusiness.grantAccess(observedId, requestUser.getEmail(), requestUser.getRole(),
@@ -197,7 +202,8 @@ public class UserController {
 
 	@DeleteMapping("/{observedUserId}/access/{observedId}")
 	public ResponseEntity<StatusMessage> removeAccess(@RequestHeader("Authorization") String sessionToken,
-			@PathVariable String observedUserId, @PathVariable String observedId) throws SQLException {
+			@PathVariable String observedUserId, @PathVariable String observedId)
+			throws SQLException, MyAbcDataException {
 		UserSession userSession = userBusiness.getUserSession(sessionToken);
 
 		userBusiness.deleteObservers(userSession.getUserId(), observedUserId, observedId);
@@ -208,7 +214,7 @@ public class UserController {
 	@PostMapping("/reassign/{observedId}")
 	public ResponseEntity<StatusMessage> requestReassign(@PathVariable String observedId,
 			@RequestBody RequestUser requestUser, @RequestHeader("Authorization") String sessionToken)
-			throws SQLException {
+			throws SQLException, MyAbcDataException {
 		userBusiness.getUserSession(sessionToken);
 
 		String message = userBusiness.requestReassign(sessionToken, observedId, requestUser.getEmail());
@@ -218,14 +224,15 @@ public class UserController {
 
 	@GetMapping("/reassign")
 	public ResponseEntity<Verification> getVerification(@RequestParam(value = "key", required = true) String key)
-			throws SQLException {
+			throws SQLException, MyAbcDataException {
 		Verification verification = userBusiness.getReassignVerification(key);
 
 		return new ResponseEntity<>(verification, HttpStatus.OK);
 	}
 
 	@PutMapping("/reassign")
-	public ResponseEntity<StatusMessage> reassignObserved(@RequestBody RequestUser requestUser) throws SQLException {
+	public ResponseEntity<StatusMessage> reassignObserved(@RequestBody RequestUser requestUser)
+			throws SQLException, MyAbcDataException {
 
 		userBusiness.reassignObserved(requestUser.getKey(), requestUser.getRelationship());
 
@@ -234,7 +241,7 @@ public class UserController {
 
 	@DeleteMapping("/remove")
 	public ResponseEntity<StatusMessage> removeMe(@RequestHeader("Authorization") String sessionToken)
-			throws SQLException {
+			throws SQLException, MyAbcDataException {
 		UserSession userSession = userBusiness.getUserSession(sessionToken);
 
 		userBusiness.deleteUser(userSession.getUserId());
@@ -258,16 +265,17 @@ public class UserController {
 	@ExceptionHandler(MyAbcDataException.class)
 	public ResponseEntity<StatusMessage> handleMyAbcDataException(MyAbcDataException ex) {
 		switch (ex.getExceptionCode()) {
-		case MyAbcDataException.INVALID_LOGIN:
-			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
-					HttpStatus.UNAUTHORIZED);
-		case MyAbcDataException.NOT_FOUND:
-			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()), HttpStatus.NOT_FOUND);
-		case MyAbcDataException.DUPLICATE:
-			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()), HttpStatus.FOUND);
-		default:
-			return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
-					HttpStatus.INTERNAL_SERVER_ERROR);
+			case MyAbcDataException.INVALID_LOGIN:
+				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
+						HttpStatus.UNAUTHORIZED);
+			case MyAbcDataException.NOT_FOUND:
+				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
+						HttpStatus.NOT_FOUND);
+			case MyAbcDataException.DUPLICATE:
+				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()), HttpStatus.FOUND);
+			default:
+				return new ResponseEntity<>(new StatusMessage(StatusMessage.ERROR, ex.getMessage()),
+						HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

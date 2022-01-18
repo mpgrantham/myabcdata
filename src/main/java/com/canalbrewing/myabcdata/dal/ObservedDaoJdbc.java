@@ -12,7 +12,9 @@ import java.util.List;
 import com.canalbrewing.myabcdata.model.Abc;
 import com.canalbrewing.myabcdata.model.Incident;
 import com.canalbrewing.myabcdata.model.Observed;
+import com.canalbrewing.myabcdata.resultsetmapper.ResultSetMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -40,9 +42,6 @@ public class ObservedDaoJdbc extends BaseDao implements ObservedDao {
 
 	private static final String PROC_GET_USERS_BY_OBSERVED = "{call get_users_by_observed_id(?)}";
 
-	private static final String COL_OBSERVED_ID = "observed_id";
-	private static final String COL_OBSERVED_NM = "observed_nm";
-	private static final String COL_RELATIONSHIP = "relationship";
 	private static final String COL_USER_NM = "user_nm";
 
 	private static final String COL_USER_ID = "user_id";
@@ -50,11 +49,6 @@ public class ObservedDaoJdbc extends BaseDao implements ObservedDao {
 	private static final String COL_VALUE_ID = "value_id";
 	private static final String COL_TYPE_CD = "type_cd";
 	private static final String COL_TYPE_VALUE = "type_value";
-
-	private static final String COL_ROLE = "role";
-	private static final String COL_RELATIONSHIP_ID = "relationship_id";
-
-	private static final String COL_ACCESS_STATUS = "access_status";
 
 	private static final String COL_INCIDENT_ID = "incident_id";
 	private static final String COL_INCIDENT_DT = "incident_dt";
@@ -65,18 +59,18 @@ public class ObservedDaoJdbc extends BaseDao implements ObservedDao {
 	private static final String COL_DURATION = "duration";
 	private static final String COL_DESCRIPTION = "description";
 
-	private static final String COL_EMAIL = "email";
+	@Autowired
+	ResultSetMapper mapper;
 
 	public List<Observed> getObservedByUser(int userId) throws SQLException {
+
 		List<Observed> observedList = new ArrayList<>();
 
 		try (Connection conn = getConnection(); CallableStatement stmt = conn.prepareCall(PROC_GET_OBSERVED_BY_USER)) {
 			stmt.setInt(1, userId);
 
 			try (ResultSet rs = stmt.executeQuery()) {
-				while (rs.next()) {
-					observedList.add(mapObserved(rs));
-				}
+				observedList = mapper.mapResult(rs, Observed.class);
 			}
 		}
 
@@ -90,41 +84,8 @@ public class ObservedDaoJdbc extends BaseDao implements ObservedDao {
 			stmt.setInt(1, observedId);
 
 			try (ResultSet rs = stmt.executeQuery()) {
-				while (rs.next()) {
-					observed = new Observed();
-					observed.setId(rs.getInt(COL_OBSERVED_ID));
-					observed.setObservedNm(rs.getString(COL_OBSERVED_NM));
-				}
+				observed = mapper.mapOneResult(rs, Observed.class);
 			}
-		}
-
-		return observed;
-	}
-
-	private Observed mapObserved(ResultSet rs) throws SQLException {
-
-		String role = rs.getString(COL_ROLE);
-
-		Observed observed = new Observed();
-		observed.setId(rs.getInt(COL_OBSERVED_ID));
-		observed.setObservedNm(rs.getString(COL_OBSERVED_NM));
-		observed.setRole(role);
-		observed.setRelationshipId(rs.getInt(COL_RELATIONSHIP_ID));
-		observed.setRelationship(rs.getString(COL_RELATIONSHIP));
-		observed.setAccessStatus(rs.getString(COL_ACCESS_STATUS));
-
-		// Set these for convenience
-		if (Observed.ROLE_ADMIN.equals(role)) {
-			observed.setAdminRole(true);
-			observed.setEntryRole(true);
-			observed.setLogRole(true);
-		} else if (Observed.ROLE_ENTRY_LOG.equals(role)) {
-			observed.setEntryRole(true);
-			observed.setLogRole(true);
-		} else if (Observed.ROLE_ENTRY.equals(role)) {
-			observed.setEntryRole(true);
-		} else if (Observed.ROLE_LOG.equals(role)) {
-			observed.setLogRole(true);
 		}
 
 		return observed;
@@ -138,13 +99,7 @@ public class ObservedDaoJdbc extends BaseDao implements ObservedDao {
 			stmt.setInt(1, observedId);
 
 			try (ResultSet rs = stmt.executeQuery()) {
-				while (rs.next()) {
-					Abc abc = new Abc();
-					abc.setValueId(rs.getInt(COL_VALUE_ID));
-					abc.setTypeCd(rs.getString(COL_TYPE_CD));
-					abc.setTypeValue(rs.getString(COL_TYPE_VALUE));
-					abcs.add(abc);
-				}
+				abcs = mapper.mapResult(rs, Abc.class);
 			}
 		}
 
@@ -448,17 +403,7 @@ public class ObservedDaoJdbc extends BaseDao implements ObservedDao {
 			stmt.setInt(1, observedId);
 
 			try (ResultSet rs = stmt.executeQuery()) {
-				while (rs.next()) {
-					Observed observed = new Observed();
-					observed.setId(observedId);
-					observed.setUserId(rs.getInt(COL_USER_ID));
-					observed.setRole(rs.getString(COL_ROLE));
-					observed.setRelationshipId(rs.getInt(COL_RELATIONSHIP_ID));
-					observed.setRelationship(rs.getString(COL_RELATIONSHIP));
-					observed.setAccessStatus(rs.getString(COL_ACCESS_STATUS));
-					observed.setEmail(rs.getString(COL_EMAIL));
-					userList.add(observed);
-				}
+				userList = mapper.mapResult(rs, Observed.class);
 			}
 		}
 

@@ -14,6 +14,7 @@ import com.canalbrewing.myabcdata.model.Observed;
 import com.canalbrewing.myabcdata.model.User;
 import com.canalbrewing.myabcdata.model.UserSession;
 import com.canalbrewing.myabcdata.model.Verification;
+import com.canalbrewing.myabcdata.resultsetmapper.ResultSetMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,7 +46,6 @@ public class UserDaoJdbc extends BaseDao implements UserDao {
 	private static final String PROC_GET_VERIFICATION = "{call get_verification(?)}";
 
 	private static final String COL_ID = "id";
-	private static final String COL_RELATIONSHIP = "relationship";
 	private static final String COL_USER_NM = "user_nm";
 	private static final String COL_PASSWORD = "password";
 	private static final String COL_SALT = "salt";
@@ -66,20 +66,18 @@ public class UserDaoJdbc extends BaseDao implements UserDao {
 	@Autowired
 	ObservedDao observedDao;
 
+	@Autowired
+	ResultSetMapper mapper;
+
 	public List<Relationship> getRelationships() throws SQLException {
 
 		List<Relationship> relationships = new ArrayList<>();
 
-		// Try-With Resopurces closes Connection, etc.
+		// Try-With Resources closes Connection, etc.
 		try (Connection conn = getConnection();
 				CallableStatement stmt = conn.prepareCall(PROC_GET_RELATIONSHIPS);
 				ResultSet rs = stmt.executeQuery()) {
-			while (rs.next()) {
-				Relationship relationship = new Relationship();
-				relationship.setId(rs.getInt(COL_ID));
-				relationship.setName(rs.getString(COL_RELATIONSHIP));
-				relationships.add(relationship);
-			}
+			relationships = mapper.mapResult(rs, Relationship.class);
 		}
 
 		return relationships;

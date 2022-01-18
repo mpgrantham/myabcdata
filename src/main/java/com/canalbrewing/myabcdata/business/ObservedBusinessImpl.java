@@ -37,14 +37,7 @@ public class ObservedBusinessImpl implements ObservedBusiness {
 	ObservedDao observedDao;
 
 	public List<Observed> getObservedByUser(int userId) throws SQLException {
-		List<Observed> observedList = observedDao.getObservedByUser(userId);
-
-		for (Observed obs : observedList) {
-			String id = String.valueOf(obs.getId());
-			obs.setIncidentSummary(getIncidentSummaryByObserved(id));
-		}
-
-		return observedList;
+		return observedDao.getObservedByUser(userId);
 	}
 
 	public Observed getObserved(String observedId) throws SQLException {

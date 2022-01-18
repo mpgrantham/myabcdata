@@ -1,8 +1,13 @@
 package com.canalbrewing.myabcdata.model;
 
+import com.canalbrewing.myabcdata.resultsetmapper.annotation.DbColumn;
+
 public class Relationship {
 
+    @DbColumn(name = "id")
     private int id;
+
+    @DbColumn(name = "relationship")
     private String name;
 
     public Relationship() {

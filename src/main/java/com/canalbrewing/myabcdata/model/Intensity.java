@@ -1,8 +1,13 @@
 package com.canalbrewing.myabcdata.model;
 
+import com.canalbrewing.myabcdata.resultsetmapper.annotation.DbColumn;
+
 public class Intensity {
 
+    @DbColumn(name = "id")
     private int id;
+
+    @DbColumn(name = "intensity")
     private String intensity;
 
     public Intensity() {
@@ -12,7 +17,7 @@ public class Intensity {
         this.id = id;
         this.intensity = intensity;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -28,5 +33,5 @@ public class Intensity {
     public void setIntensity(String intensity) {
         this.intensity = intensity;
     }
-        
+
 }

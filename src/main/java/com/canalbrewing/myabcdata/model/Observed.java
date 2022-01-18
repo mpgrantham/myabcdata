@@ -3,40 +3,49 @@ package com.canalbrewing.myabcdata.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.canalbrewing.myabcdata.resultsetmapper.annotation.DbColumn;
+
 public class Observed {
     public static final String ROLE_ADMIN = "ADMIN";
-	public static final String ROLE_ENTRY = "ENTRY";
-	public static final String ROLE_LOG = "LOG";
-	public static final String ROLE_ENTRY_LOG = "ENTRY_LOG";
-	
-	public static final String STATUS_ACTIVE = "ACTIVE";
-	public static final String STATUS_PENDING = "PENDING";
-	public static final String STATUS_INACTIVE = "INACTIVE";
-    public static final String STATUS_HIDDEN = "HIDDEN";
-    
-    private int id;
-	private String observedNm;
-	private int userId;
-	
-	private String role;
-	private int relationshipId;
-    private String relationship;
-    
-    private boolean adminRole = false;
-    private boolean entryRole = false;
-    private boolean logRole = false;
-	
-	private String accessStatus = STATUS_ACTIVE;
-	private String accessKey;
-	
-    private String email;
-    
-    private List<Abc> antecedents = new ArrayList<>();
-	private List<Abc> behaviors = new ArrayList<>();
-	private List<Abc> consequences = new ArrayList<>();
-    private List<Abc> locations = new ArrayList<>();
+    public static final String ROLE_ENTRY = "ENTRY";
+    public static final String ROLE_LOG = "LOG";
+    public static final String ROLE_ENTRY_LOG = "ENTRY_LOG";
 
-    private IncidentSummary incidentSummary;
+    public static final String STATUS_ACTIVE = "ACTIVE";
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_INACTIVE = "INACTIVE";
+    public static final String STATUS_HIDDEN = "HIDDEN";
+
+    @DbColumn(name = "observed_id")
+    private int id;
+
+    @DbColumn(name = "observed_nm")
+    private String observedNm;
+
+    @DbColumn(name = "role")
+    private String role;
+
+    @DbColumn(name = "relationship_id")
+    private int relationshipId;
+
+    @DbColumn(name = "relationship")
+    private String relationship;
+
+    @DbColumn(name = "access_status")
+    private String accessStatus = STATUS_ACTIVE;
+
+    @DbColumn(name = "user_id")
+    private int userId;
+
+    @DbColumn(name = "email")
+    private String email;
+
+    private String accessKey;
+
+    private List<Abc> antecedents = new ArrayList<>();
+    private List<Abc> behaviors = new ArrayList<>();
+    private List<Abc> consequences = new ArrayList<>();
+    private List<Abc> locations = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -143,56 +152,33 @@ public class Observed {
     }
 
     public void addValue(Abc abc) {
-		switch ( abc.getTypeCd() )
-		{
-		case Abc.ANTECEDENT:
-			this.antecedents.add(abc);
-			break;
-		case Abc.BEHAVIOR:
-			this.behaviors.add(abc);
-			break;
-		case Abc.CONSEQUENCE:
-			this.consequences.add(abc);
-			break;
-		case Abc.LOCATION:
-			this.locations.add(abc);
-            break;
-        default:
-		}
-    }
-
-    public IncidentSummary getIncidentSummary() {
-        return incidentSummary;
-    }
-
-    public void setIncidentSummary(IncidentSummary incidentSummary) {
-        this.incidentSummary = incidentSummary;
+        switch (abc.getTypeCd()) {
+            case Abc.ANTECEDENT:
+                this.antecedents.add(abc);
+                break;
+            case Abc.BEHAVIOR:
+                this.behaviors.add(abc);
+                break;
+            case Abc.CONSEQUENCE:
+                this.consequences.add(abc);
+                break;
+            case Abc.LOCATION:
+                this.locations.add(abc);
+                break;
+            default:
+        }
     }
 
     public boolean isAdminRole() {
-        return adminRole;
-    }
-
-    public void setAdminRole(boolean adminRole) {
-        this.adminRole = adminRole;
+        return ROLE_ADMIN.equals(role);
     }
 
     public boolean isEntryRole() {
-        return entryRole;
-    }
-
-    public void setEntryRole(boolean entryRole) {
-        this.entryRole = entryRole;
+        return ROLE_ADMIN.equals(role) || ROLE_ENTRY_LOG.equals(role) || ROLE_ENTRY.equals(role);
     }
 
     public boolean isLogRole() {
-        return logRole;
+        return ROLE_ADMIN.equals(role) || ROLE_ENTRY_LOG.equals(role) || ROLE_LOG.equals(role);
     }
 
-    public void setLogRole(boolean logRole) {
-        this.logRole = logRole;
-    }
-
-    
-            
 }
